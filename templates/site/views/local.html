@@ -1,0 +1,86 @@
+{%extends 'base.html'%}
+{% block conteudo %}
+<div class="w-full  p-5 justify-start">
+  <div class="mb-3 ">
+    <a href="{{url('locais')}}" class="text-gray-800 font-medium hover:text-gray-600">Locais / </a>
+    <a href="#" class="text-gray-800 font-medium">{{maiuscula(slug(locais.nome))}}</a>
+  </div>
+  <div class=" w-full flex flex-col  justify-center items-start gap-8 overflow-y-scroll overflow-x-auto  " style="max-height: 550px;">
+      
+    <div class="flex gap-5 w-full">
+     
+       <div class=" w-full  dark:bg-gray-900 dark:border-gray-700 rounded-lg px-8 py-3 flex gap-4  justify-center items-center">
+        <div class="flex justify-center items-center rounded-2xl bg-violet-300 w-14 h-14">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="#4c1d95" class="bi bi-bar-chart"
+            viewBox="0 0 16 16">
+            <path
+              d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z" />
+          </svg>
+
+        </div>
+        <p class="flex flex-col justify-center items-start font-bold text-2xl text-gray-800 dark:text-white">
+          <span class="text-sm font-normal text-zinc-500 dark:text-white">ENTRADA TOTAL</span>{{total}}
+        </p>
+        
+      </div>
+    </div>
+      
+      
+     <div class="relative flex flex-col items-center justify-center  shadow-md sm:rounded-lg w-full overflow-x-auto">
+    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">ID</th>
+              <th scope="col" class="px-6 py-3">Produto</th>
+               <th scope="col" class="px-6 py-3">Quantidade</th>
+              <th scope="col" class="px-6 py-3">Data</th>
+            </tr>
+          </thead>
+          <tbody>
+              {%for registro in registros%}
+         
+              <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+              
+              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.id}}</td>
+              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {% set produtoNome= '' %}
+                    {% for produto in produtos %}
+                        {% if produto.id == registro.produto_id %}
+                            {% set produtoNome = produto.nome %}
+                         
+                        {% endif %}
+                    {% endfor %}
+                    {{ produtoNome }}</td>
+              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.quantidade}}</td>
+             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.data_hora}}</td>
+            </tr>
+            
+           
+           {%endfor%}
+          </tbody>
+        </table>
+          <nav class='flex items-center justify-center my-2 '>
+  <ul class="flex -space-x-px text-sm">
+      {% if paginaAtual > 1 %}
+    <li>
+      <a href="?pagina={{ paginaAtual - 1 }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Anterior</a>
+    </li>
+    {% endif %}
+    {% for pagina in 1..totalPaginas %}
+    <li>
+      <a href="?pagina={{ pagina }}" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ pagina }}</a>
+    </li>
+{% endfor %}
+      {% if paginaAtual < totalPaginas %} 
+<li>
+      <a href="?pagina={{ paginaAtual + 1 }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Próxima</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+          
+      </div>
+     
+  </div>
+</div>
+
+{% endblock %}

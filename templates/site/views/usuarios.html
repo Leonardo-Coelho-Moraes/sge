@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{% block conteudo %}
+<div class="w-full  p-5 justify-start">
+    <a href="#" class="mb-3 text-white font-medium hover:text-gray-600">Usuários</a>
+    <div class=" w-full flex  justify-center items-start gap-8 overflow-y-scroll " style="max-height: 550px;">
+        <div class="w-2/4 dark:bg-gray-900 dark:border-gray-700 rounded-lg p-3">
+            <form action="{{url('usuarios')}}" method="post" class="flex gap-5 flex-col items-start justify-center" >
+                <div class="w-full" >
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="usuariocad">
+                        Nome
+                    </label>
+                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="usuariocad" type="text" name="usuariocad" placeholder="Ex: Leonardoxg2d"  required>
+                </div>
+                
+                <div class="w-full"  >
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="senha">
+                        Senha
+                    </label>
+                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="senha" type="password" name="senha" placeholder="Ex: akmi432mx"  required>
+                </div>
+                <div class="w-full"  >
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="nivelacesso" >
+                        Nível
+                    </label>
+                    <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" id="nivelacesso" type="number" name="nivelacesso" placeholder="Ex: 1" min="1" max="3" required>
+                </div>
+
+
+                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="submit">
+                    Enviar
+                </button>
+
+            </form>
+        </div>
+        <div class="relative w-2/4 shadow-md sm:rounded-lg  overflow-x-auto">
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Local</th>
+                        <th scope="col" class="px-6 py-3">Acesso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for usuario in usuarios%}
+
+                    <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{usuario.id}}</td>
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            {{usuario.nome}}
+                        </td>
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{usuario.nivel_acesso}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

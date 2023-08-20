@@ -1,5 +1,7 @@
 <?php
 namespace sge\Nucleo;
+use Exception;
+ use sge\Nucleo\Sessao;
 class Helpers{
 /**
  * Conta o tempo decorrido de uma data
@@ -9,6 +11,21 @@ class Helpers{
  * @author Leonardo
  * 
  */
+public static function flash():?string {
+    $sessao = new Sessao;
+    if($flash = $sessao->flash()){
+        echo $flash;
+    }
+    return null;
+}
+public static function redirecionar(string $url = null): void {
+    $local = ($url ? self::url($url) : self::url());
+
+    echo "<meta http-equiv='refresh' content='0;url={$local}'>";
+    exit;
+}
+
+
 public static function url(string $url = null): string
 {
         $sevidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
@@ -26,6 +43,7 @@ public static function localhost(): bool
     }
     return false;
 }
+
 public static function contarTempo(string $data): string {
     $agora = strtotime(date('Y-m-d H:i:s'));
     $tempo = strtotime($data);
@@ -70,9 +88,35 @@ public static function saudacao(): string {
  
 public static function slug(string $string): string {
 
-    $mapa['a'] = 'ÃÁÀÂÄÅÉÈËÊÍÌÎÏÓÒÖÔÕÚÙÜÛÑÇãáàâäåéèëêíìîïóòöôõúùüûñç';
-    $mapa['b'] = 'AAAAAAEEEEIIIIOOOOOUUUUNCaaaaaaeeeeiiiiooooouuuunc';
+    $mapa['a'] = 'ÃÁÀÂÄÅÉÈËÊÍÌÎÏÓÒÖÔÕÚÙÜÛÑÇãáàâäåéèëêíìîïóòöôõúùüûñç-';
+    $mapa['b'] = 'AAAAAAEEEEIIIIOOOOOUUUUNCaaaaaaeeeeiiiiooooouuuunc ';
     $slug = strtr(mb_convert_encoding($string, 'ISO-8859-1', 'UTF-8'), mb_convert_encoding($mapa['a'], 'ISO-8859-1', 'UTF-8'), $mapa['b']);
     return strtolower(mb_convert_encoding(trim($slug), 'ISO-8859-1', 'UTF-8'));
 }
+public static function textTraco(string $string): string {
+        $mapa = [
+            ' ' => '-',
+        ];
+
+        $slug = strtr($string, $mapa);
+        $slug = mb_strtolower(trim($slug), 'UTF-8');
+        return $slug;
+    }
+public static function juntarlink(string $string = null): string {
+
+    return strtolower($string);
+}
+public static function validarNumero($valor) {
+    return intval($valor);
+} 
+public static function validarString($valor) {
+        if (!is_string($valor)) {
+            $valor = strval($valor);
+        }
+        
+        return strtolower($valor);
+     
+    }
+
+
 }
