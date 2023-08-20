@@ -14,14 +14,6 @@ use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
 class EntradaModelo {
-    public function busca(int $pagina, int $limite){
-       $inicio = ($pagina * $limite) - $limite;
-       $query = "SELECT * FROM registros WHERE acao = 'entrada' ORDER BY data_hora DESC LIMIT $inicio, $limite";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetchAll();
-        
-        return $resultado;
-    }
     public function entrada(array $dados): void {
         $produto =  Helpers::validarNumero($dados['produto']);
       $quantidade =  Helpers::validarNumero($dados['quantidade']);

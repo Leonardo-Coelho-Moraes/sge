@@ -14,21 +14,8 @@ use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
 class RegistrosModelo {
-public function busca(int $pagina, int $limite){
-   
-    $inicio = ($pagina * $limite) - $limite;
-    $query = "SELECT * FROM registros ORDER BY id DESC LIMIT $inicio, $limite";        
-    $stmt = Conexao::getInstancia()->query($query);
-    $resultado = $stmt->fetchAll();
-    return $resultado;
-}
 
-public function buscaSaida(){
-    $query = "SELECT * FROM `registros` WHERE `acao` = 'saida'";    
-    $stmt = Conexao::getInstancia()->query($query);
-    $resultado = $stmt->fetchAll();
-    return $resultado;
-}
+
 public function atualizar(array $dados, int $id): void {
      $produto = Helpers::validarNumero($dados['produto']);
      if(isset($dados['locais'])){
@@ -52,13 +39,7 @@ public function atualizar(array $dados, int $id): void {
     // Execute the statement
     $stmt->execute();
 }
-public function buscaPorId(int $id): bool|object{
-       
-        $query= "SELECT * from registros WHERE id = {$id}";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetch();
-        return $resultado;
-    }
+
     public function contaRegistros() {
         $query = "SELECT COUNT(*) as total FROM registros";
         $stmt = Conexao::getInstancia()->query($query);
@@ -71,22 +52,6 @@ public function buscaPorId(int $id): bool|object{
         $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
         return $resultado->total; // Acesse a propriedade diretamente
     }
-    public function buscaLocal(int $pagina, int $limite, int $id){
-   
-    $inicio = ($pagina * $limite) - $limite;
-    $query = "SELECT * FROM registros WHERE local_id = {$id} ORDER BY id DESC LIMIT $inicio, $limite";        
-    $stmt = Conexao::getInstancia()->query($query);
-    $resultado = $stmt->fetchAll();
-    return $resultado;
-}
-  public function buscaProduto(int $pagina, int $limite, int $id){
-   
-    $inicio = ($pagina * $limite) - $limite;
-    $query = "SELECT * FROM registros WHERE produto_id = {$id} ORDER BY id DESC LIMIT $inicio, $limite";        
-    $stmt = Conexao::getInstancia()->query($query);
-    $resultado = $stmt->fetchAll();
-    return $resultado;
-}
 public function calculaPorcentagemMudanca(int $id) {
     // Calcular o total de registros para o mês atual
     $queryAtual = "SELECT COUNT(*) as total FROM registros WHERE local_id = {$id} AND MONTH(data_hora) = MONTH(CURRENT_DATE()) AND YEAR(data_hora) = YEAR(CURRENT_DATE())";

@@ -33,7 +33,7 @@ class SiteControlador extends Controlador {
         $limite = 30;
          $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
           $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
-        $registros = (new EntradaModelo())->busca($pagina, $limite);
+        $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'entrada'", 'data_hora DESC');
         $totalRegistros = (new EntradaModelo())->contaRegistros();
         $totalPaginas = ceil($totalRegistros / $limite);
      
@@ -60,7 +60,7 @@ class SiteControlador extends Controlador {
     public function editar_entrada(int $id): void {
        $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
-        $registros = (new RegistrosModelo())->buscaPorId($id);
+        $registros = (new Busca())->buscaId('registros',$id);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
 $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
@@ -75,7 +75,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
           $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-        $registros = (new SaidaModelo())->busca($pagina, $limite);
+        $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'saida'", 'data_hora DESC');
         $totalRegistros = (new SaidaModelo())->contaRegistros();
 
         $totalPaginas = ceil($totalRegistros / $limite);
@@ -103,7 +103,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     public function editar_saida(int $id): void {
       $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
-        $registros = (new RegistrosModelo())->buscaPorId($id);
+        $registros = (new Busca())->buscaId('registros',$id);
         
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
@@ -119,7 +119,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     public function produtos(): void {
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-         $produtos = (new ProdutoModelo())->buscaLimite($pagina, $limite);
+         $produtos = (new Busca())->busca($pagina, $limite,'produtos', '','criado_em DESC');
         $totalRegistros = (new ProdutoModelo())->contaRegistros();
         $totalPaginas = ceil($totalRegistros / $limite);
        
@@ -142,7 +142,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
     public function editar_produto(int $id): void {
 
-        $produtos = (new ProdutoModelo())->buscaPorId($id);
+        $produtos = (new Busca())->buscaId('produtos',$id);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new ProdutoModelo())->atualizar($dados, $id);
@@ -163,7 +163,8 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $produto =   (new Busca())->buscaId('produtos',$id);
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-       $registros = (new RegistrosModelo())->buscaProduto($pagina, $limite, $id);
+       
+          $registros = (new Busca())->busca($pagina, $limite,'registros',"produto_id = $id",'id DESC');
         $totalRegistros = (new RegistrosModelo())->contaRegistrosId($id);
         $nome = Helpers::slug($produto->nome);
        
@@ -183,7 +184,8 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-        $registros = (new RegistrosModelo())->busca($pagina, $limite);
+        $registros = (new Busca())->busca($pagina, $limite,'registros','','id DESC');
+        
         $totalRegistros = (new RegistrosModelo())->contaRegistros();
 
         $totalPaginas = ceil($totalRegistros / $limite);
@@ -193,7 +195,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function usuarios(): void {
-        $usuarios = (new UserModelo())->busca();
+        $usuarios = (new Busca())->busca(null,null,'usuarios',null,'criado_em DESC',null);
          $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new UserModelo())->cadastro($dados);
@@ -216,12 +218,12 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function local(int $id): void {
-        $locais = (new PostLocal())->buscaPorId($id);
+        $locais = (new Busca())->buscaId('locais',$id);
       $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
        
          $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-       $registros = (new RegistrosModelo())->buscaLocal($pagina, $limite, $id);
+       $registros = (new Busca())->busca($pagina, $limite,'registros',"local_id = $id",'id DESC');
         $totalRegistros = (new RegistrosModelo())->contaRegistrosId($id);
         $nome = Helpers::slug($locais->nome) ;
        

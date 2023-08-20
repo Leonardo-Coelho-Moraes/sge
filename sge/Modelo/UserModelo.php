@@ -12,14 +12,7 @@ namespace sge\Modelo;
  */
 use sge\Nucleo\Conexao;
 class UserModelo {
-    public function busca(){
-   
-       $query = "SELECT * FROM usuarios ORDER BY criado_em DESC ";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetchAll();
-        
-        return $resultado;
-    }   
+     
    public function cadastro(array $dados): void {
          $nivel =  Helpers::validarNumero($dados['nivelacesso']);
        $query = "INSERT INTO usuarios ( `nome`, `senha`, `nivel_acesso` ) VALUES ( ? , ?, ?)";

@@ -15,15 +15,6 @@ use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
 class SaidaModelo {
     
-     public function busca(int $pagina, int $limite){
-        $inicio = ($pagina * $limite) - $limite;
-       $query = "SELECT * FROM registros WHERE acao = 'saida' ORDER BY id DESC LIMIT $inicio, $limite";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetchAll();
-        
-        return $resultado;
-    }
-   
     public function buscaQuantidade(string $nome): bool|object{
        
         $query= "SELECT * from produtos WHERE nome = {$nome}";

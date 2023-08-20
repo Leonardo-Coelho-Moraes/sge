@@ -15,14 +15,7 @@ use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
 class PostLocal {
 
-    public function buscaPorId(int $id): bool|object{
-         
-        $query= "SELECT * from locais WHERE id = {$id}";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetch();
-        
-        return $resultado;
-    }
+  
    public function armazenar(array $dados): void {
      
        $local = Helpers::textTraco(Helpers::validarString($dados['local']));

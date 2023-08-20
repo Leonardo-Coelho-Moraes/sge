@@ -14,21 +14,7 @@ use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
 class ProdutoModelo {
-    public function buscaLimite(int $pagina, int $limite){
-       $inicio = ($pagina * $limite) - $limite;
-        $query= "SELECT * from produtos ORDER BY criado_em DESC LIMIT $inicio, $limite";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetchAll();
-        return $resultado;
-    }
-   public function buscaPorId(int $id): bool|object{
-       
-        $query= "SELECT * from produtos WHERE id = {$id}";
-        $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetch();
-        
-        return $resultado;
-    }
+  
  public function armazenar(array $dados): void {
     // Validação dos valores
     $nome = Helpers::textTraco(Helpers::validarString($dados['produto']));  
