@@ -53,7 +53,7 @@ class ProdutoModelo {
     $lote = Helpers::validarString($dados['lote']);
     $fornecedor = Helpers::validarString($dados['fornecedor']);
     $observacao = isset($dados['nota']) ? Helpers::textTraco(Helpers::validarString($dados['nota'])) : null;
-
+    $editado = 1;
     // Verificação de campos inválidos
     if (strlen($nome) < 2 || strlen($fabricante) < 2 || strlen($tipo_embalagem) < 2 || $unidades < 1 || strlen($tipo_produto) < 2 || strlen($departamento) < 2 || $estoque < 1 || strlen($lote) < 1 || strlen($fornecedor) < 2) {
         $mensagem = (new Mensagem)->erro('Edite todos os campos corretamente, os números precisam ser maiores ou iguais a um e os nomes maiores ou iguais a 2 para as informações serem redundantes!')->flash();
@@ -61,14 +61,16 @@ class ProdutoModelo {
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
     
-    $query = "UPDATE produtos SET nome = ?, fabricante = ?, tipo_embalagem = ?, unidades_embalagem = ?, tipo_produtos = ?, departamento = ?, quantidade_estoque = ?, lote = ?, validade = ?, fornecedor = ?, observacao = ? WHERE id = ?";
+    $query = "UPDATE produtos SET nome = ?, fabricante = ?, tipo_embalagem = ?, unidades_embalagem = ?, tipo_produtos = ?, departamento = ?, quantidade_estoque = ?, lote = ?, validade = ?, fornecedor = ?, observacao = ?, editado = ? WHERE id = ?";
     $stmt = Conexao::getInstancia()->prepare($query);
 
-    $stmt->execute([$nome, $fabricante, $tipo_embalagem, $unidades, $tipo_produto, $departamento, $estoque, $lote, $dados["validade"], $fornecedor, $observacao, $id]);
+    $stmt->execute([$nome, $fabricante, $tipo_embalagem, $unidades, $tipo_produto, $departamento, $estoque, $lote, $dados["validade"], $fornecedor, $observacao,$editado, $id]);
 }
 public function deletar(int $id): void {
-    $query = "DELETE FROM `produtos` WHERE `produtos`.`id` = {$id}";
-    $stmt = Conexao::getInstancia()->prepare($query);
+    $deletado = 1;
+    $query = "UPDATE produtos SET deletado = $deletado WHERE `produtos`.`id` = {$id}";
+     $stmt = Conexao::getInstancia()->prepare($query);
+
     $stmt->execute();
     
 }

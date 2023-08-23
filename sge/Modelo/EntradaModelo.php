@@ -37,7 +37,7 @@ class EntradaModelo {
            return;
         }
        
-       $query = "INSERT INTO registros ( `produto_id`, `acao`, `quantidade`, `local_id` ) VALUES ( ? , ?, ?, ?)";
+       $query = "INSERT INTO registros ( `produto_id`, `acao`, `quantidade`, `local_id`  ) VALUES ( ? , ?, ?, ?)";
     $stmt = Conexao::getInstancia()->prepare($query);
  
    $acao = "entrada";

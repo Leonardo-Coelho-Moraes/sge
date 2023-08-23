@@ -21,6 +21,7 @@ public function atualizar(array $dados, int $id): void {
      if(isset($dados['locais'])){
      $locais = Helpers::validarNumero($dados['locais']);}
      $locais = 6;
+     $true = 1;
      $quantidade = Helpers::validarNumero($dados['quantidade']);
         
      if ($produto < 0 || $locais < 0 || $quantidade < 1 ) {
@@ -28,13 +29,14 @@ public function atualizar(array $dados, int $id): void {
         Helpers::redirecionar('registros');
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
-    $query = "UPDATE registros SET produto_id = :produto_id, local_id = :local_id, quantidade = :quantidade WHERE id = :id";
+    $query = "UPDATE registros SET produto_id = :produto_id, local_id = :local_id, quantidade = :quantidade, editado =:editado WHERE id = :id";
     $stmt = Conexao::getInstancia()->prepare($query);
      
     // Bind parameters explicitly
     $stmt->bindParam(':produto_id', $produto);
     $stmt->bindParam(':local_id', $locais);
     $stmt->bindParam(':quantidade', $quantidade);
+    $stmt->bindParam(':editado', $true);
     $stmt->bindParam(':id', $id);
     // Execute the statement
     $stmt->execute();

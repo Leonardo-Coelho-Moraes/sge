@@ -19,7 +19,11 @@
                 </div>
             {{flash()}}
             
-
+            <div class="flex gap-2 items-center justify-start"> 
+               {%if quantidade >0 %}   <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Entradas: {{quantidade}}</p></div>{%endif%}
+                  {%if quantidade >0 %}   <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas entradas: {{quantidade}}</p></div>{%endif%}
+                  {%if edicao >0 %}  <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Edições: {{edicao}}</p></div>{%endif%}
+            </div>
 
                <div class="relative  shadow-md sm:rounded-lg  overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -53,7 +57,7 @@
                          
                         {% endif %}
                     {% endfor %}
-                    {{ produtoNome }}</td>
+                   <a href="{{url('produtos/'~registro.produto_id)}}" class="hover:text-blue-500">{{maiuscula(slug(produtoNome))  }}</a></td>
              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {% set localNome = '' %}
                     {% for local in locais %}
                         {% if local.id == registro.local_id %}
@@ -61,7 +65,7 @@
                           
                         {% endif %}
                     {% endfor %}
-                    <a href="{{url('local/'~registro.local_id)}}">{{maiuscula(slug(localNome))  }}</a>
+                    <a href="{{url('local/'~registro.local_id)}}" class="hover:text-blue-500">{{maiuscula(slug(localNome))  }}</a>
                 </td>
              
                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

@@ -16,7 +16,13 @@
            
     </form>
                 </div>
-            
+               {{flash()}}
+              <div class="flex gap-2 items-center justify-start"> 
+              {%if quantidade >0 %}     <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Produtos: {{quantidade}}</p></div> {%endif%}  
+                 
+                  {%if edicao >0 %}     <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Edições: {{edicao}}</p></div>{%endif%}  
+                  {%if deletado >0 %}      <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Deletados: {{deletado}}</p></div>{%endif%}  
+            </div>
 
 
       <div class="relative  shadow-md sm:rounded-lg overflow-x-auto ">

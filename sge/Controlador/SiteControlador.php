@@ -16,7 +16,7 @@ use sge\Modelo\SaidaModelo;
 use sge\Modelo\ProdutoModelo;
 use sge\Modelo\RegistrosModelo;
 use sge\Modelo\UserModelo;
-
+use sge\Modelo\Contar;
 class SiteControlador extends Controlador {
 
     public function __construct() {
@@ -33,6 +33,9 @@ class SiteControlador extends Controlador {
         $limite = 30;
          $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
           $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
+          $quantidade = (new Contar())->contar('registros',"acao = 'entrada'");
+          $edicao = (new Contar())->contar('registros',"editado = 1 AND acao = 'entrada'");
+          
         $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'entrada'", 'data_hora DESC');
         $totalRegistros = (new EntradaModelo())->contaRegistros();
         $totalPaginas = ceil($totalRegistros / $limite);
@@ -41,24 +44,24 @@ class SiteControlador extends Controlador {
 
         echo $this->template->renderizar('entrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Entrada', 'registros' => $registros,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais]);
+            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade,'edicao' =>$edicao]);
     }
 
     public function entrada_adicionar(): void {
-        $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
+        $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new EntradaModelo())->entrada($dados);
             (new EntradaModelo())->entradaRegisto($dados);
             $this->mensagem->sucesso('Entrada Adicionada com Sucesso!')->flash();
-            Helpers::redirecionar('entrada');
+            Helpers::redirecionar('entrada/adicionar');
         }
         echo $this->template->renderizar('formularios/adicionarentrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos, 'locais' => $locais]);
     }
 
     public function editar_entrada(int $id): void {
-       $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
+       $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $registros = (new Busca())->buscaId('registros',$id);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -75,6 +78,8 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
           $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
+         $quantidade = (new Contar())->contar('registros',"acao = 'saida'");
+         $edicao = (new Contar())->contar('registros',"editado = 1 AND acao = 'saida'");
         $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'saida'", 'data_hora DESC');
         $totalRegistros = (new SaidaModelo())->contaRegistros();
 
@@ -82,18 +87,18 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
         echo $this->template->renderizar('saida.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Saída', 'registros' => $registros,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais]);
+            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade, 'edicao' => $edicao]);
     }
 
     public function saida_adicionar(): void {
-        $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
+        $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados) ) {
             (new SaidaModelo())->saida($dados);
             (new SaidaModelo())->saidaRegisto($dados);
             $this->mensagem->sucesso('Saída Adicionada com Sucesso!')->flash();
-            Helpers::redirecionar('saida');
+            Helpers::redirecionar('saida/adicionar');
         }
           
         
@@ -101,7 +106,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function editar_saida(int $id): void {
-      $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
+      $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $registros = (new Busca())->buscaId('registros',$id);
         
@@ -119,14 +124,18 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     public function produtos(): void {
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-         $produtos = (new Busca())->busca($pagina, $limite,'produtos', '','criado_em DESC');
+         $produtos = (new Busca())->busca($pagina, $limite,'produtos', "deletado != 1 OR deletado IS NULL ",'criado_em DESC');
+           $quantidade = (new Contar())->contar('produtos',"deletado = 0 OR deletado IS NULL");
+          $edicao = (new Contar())->contar('produtos',"editado = 1");
+          
+          $deletado = (new Contar())->contar('produtos',"deletado = 1");
         $totalRegistros = (new ProdutoModelo())->contaRegistros();
         $totalPaginas = ceil($totalRegistros / $limite);
        
 
         echo $this->template->renderizar('produtos.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas]);
+            'totalPaginas' => $totalPaginas,'quantidade' =>$quantidade,'edicao' =>$edicao, 'deletado' => $deletado]);
     }
 
     public function produto_cadastrar(): void {
@@ -134,6 +143,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new ProdutoModelo())->armazenar($dados);
+             $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
             Helpers::redirecionar('produtos');
         }
 
@@ -146,6 +156,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new ProdutoModelo())->atualizar($dados, $id);
+            $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
             Helpers::redirecionar('produtos');
         }
 
@@ -154,7 +165,10 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function deletar_produto(int $id): void {
+        
+        
         (new ProdutoModelo())->deletar($id);
+        $this->mensagem->sucesso('Produto inserido na lista de deletados com sucesso!')->flash();
         Helpers::redirecionar('produtos');
     }
     
@@ -189,9 +203,12 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $totalRegistros = (new RegistrosModelo())->contaRegistros();
 
         $totalPaginas = ceil($totalRegistros / $limite);
+        $quantidadeEntradas = (new Contar())->contar('registros',"acao = 'entrada'");
+         $quantidadeSaidas = (new Contar())->contar('registros',"acao = 'saida'");
+         $edicao = (new Contar())->contar('registros',"editado = 1");
         echo $this->template->renderizar('registros.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Registros', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas]);
+            'totalPaginas' => $totalPaginas, 'quantidadeEntradas' => $quantidadeEntradas, 'quantidadeSaidas' => $quantidadeSaidas, 'edicao' => $edicao]);
     }
 
     public function usuarios(): void {

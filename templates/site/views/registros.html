@@ -18,6 +18,13 @@
                 </div>
             
 
+        <div class="flex gap-2 items-center justify-start"> 
+              {%if quantidadeEntradas >0 %}      <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Entradas: {{quantidadeEntradas}}</p></div>   {%endif %}  
+                 {%if quantidadeSaidas >0 %}      <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Saidas: {{quantidadeSaidas}}</p></div> {%endif %}  
+             {%if quantidadeEntradas >0 %}        <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas entradas: {{quantidadeEntradas}}</p></div> {%endif %}  
+                  {%if quantidadeSaidas >0 %}   <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas saídas: {{quantidadeSaidas}}</p></div> {%endif %}  
+                  {%if edicao >0 %}     <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Edições: {{edicao}}</p></div> {%endif %}  
+            </div>
 
       <div class="relative  shadow-md sm:rounded-lg  overflow-x-auto">
     <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -42,7 +49,7 @@
                          
                         {% endif %}
                     {% endfor %}
-                    {{ produtoNome }}</td>
+                  <a href="{{url('produtos/'~registro.produto_id)}}" class="hover:text-blue-500">{{maiuscula(slug(produtoNome))  }}</a></td>
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.acao}}</td>
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.quantidade}}</td>
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {% set localNome = '' %}
@@ -52,7 +59,7 @@
                           
                         {% endif %}
                     {% endfor %}
-                    {{ maiuscula(slug(localNome))  }}</td>
+                    <a href="{{url('local/'~registro.local_id)}}" class="hover:text-blue-500">{{maiuscula(slug(localNome))  }}</a></td>
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.data_hora}}</td>
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {% if registro.acao == 'entrada' %}
