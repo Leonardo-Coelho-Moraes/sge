@@ -75,4 +75,16 @@ public function calculaPorcentagemMudanca(int $id) {
 
     return $porcentagem;
 }
+public function somarQuantidades(string $tabela, ?string $termo = null): int {
+    $termoClause = ($termo ? "WHERE $termo" : '');
+
+    $query = "SELECT SUM(quantidade) as total_quantidade FROM {$tabela} {$termoClause}";
+    $stmt = Conexao::getInstancia()->query($query);
+
+    // Use fetchColumn() para obter diretamente o valor da soma
+    $resultado = $stmt->fetchColumn();
+
+    return (int) $resultado; // Certifique-se de converter para int
+}
+
 }

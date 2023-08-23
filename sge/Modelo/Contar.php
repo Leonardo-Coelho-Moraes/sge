@@ -28,5 +28,4 @@ class Contar {
         return $resultado->total;
 }
 
-
 }

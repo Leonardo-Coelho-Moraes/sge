@@ -21,8 +21,8 @@
         <div class="flex gap-2 items-center justify-start"> 
               {%if quantidadeEntradas >0 %}      <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Entradas: {{quantidadeEntradas}}</p></div>   {%endif %}  
                  {%if quantidadeSaidas >0 %}      <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Saidas: {{quantidadeSaidas}}</p></div> {%endif %}  
-             {%if quantidadeEntradas >0 %}        <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas entradas: {{quantidadeEntradas}}</p></div> {%endif %}  
-                  {%if quantidadeSaidas >0 %}   <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas saídas: {{quantidadeSaidas}}</p></div> {%endif %}  
+             {%if soma >0 %}        <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Soma de todas entradas e saídas: {{soma}} produtos</p></div> {%endif %}  
+                
                   {%if edicao >0 %}     <div class="rounded-lg py-1 px-2 bg-green-800 w-max"><p class="text-sm text-white">Edições: {{edicao}}</p></div> {%endif %}  
             </div>
 

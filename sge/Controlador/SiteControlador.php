@@ -34,6 +34,7 @@ class SiteControlador extends Controlador {
          $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
           $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
           $quantidade = (new Contar())->contar('registros',"acao = 'entrada'");
+          $soma =  (new RegistrosModelo())->somarQuantidades('registros', "acao = 'entrada'");
           $edicao = (new Contar())->contar('registros',"editado = 1 AND acao = 'entrada'");
           
         $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'entrada'", 'data_hora DESC');
@@ -44,7 +45,7 @@ class SiteControlador extends Controlador {
 
         echo $this->template->renderizar('entrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Entrada', 'registros' => $registros,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade,'edicao' =>$edicao]);
+            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade,'edicao' =>$edicao, 'soma' => $soma]);
     }
 
     public function entrada_adicionar(): void {
@@ -80,6 +81,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $limite = 30;
          $quantidade = (new Contar())->contar('registros',"acao = 'saida'");
          $edicao = (new Contar())->contar('registros',"editado = 1 AND acao = 'saida'");
+         $soma =  (new RegistrosModelo())->somarQuantidades('registros', "acao = 'saida'");
         $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'saida'", 'data_hora DESC');
         $totalRegistros = (new SaidaModelo())->contaRegistros();
 
@@ -87,7 +89,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
         echo $this->template->renderizar('saida.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Saída', 'registros' => $registros,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade, 'edicao' => $edicao]);
+            'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade, 'edicao' => $edicao,'soma' => $soma]);
     }
 
     public function saida_adicionar(): void {
@@ -206,9 +208,10 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $quantidadeEntradas = (new Contar())->contar('registros',"acao = 'entrada'");
          $quantidadeSaidas = (new Contar())->contar('registros',"acao = 'saida'");
          $edicao = (new Contar())->contar('registros',"editado = 1");
+         $soma =  (new RegistrosModelo())->somarQuantidades('registros', null);
         echo $this->template->renderizar('registros.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Registros', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'quantidadeEntradas' => $quantidadeEntradas, 'quantidadeSaidas' => $quantidadeSaidas, 'edicao' => $edicao]);
+            'totalPaginas' => $totalPaginas, 'quantidadeEntradas' => $quantidadeEntradas, 'quantidadeSaidas' => $quantidadeSaidas, 'edicao' => $edicao, 'soma'=>$soma]);
     }
 
     public function usuarios(): void {
