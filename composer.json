@@ -19,6 +19,9 @@
     "require": {
     "php":  ">= 8.2",
         "pecee/simple-router": "dev-master",
-        "twig/twig": "^3.0"
+        "twig/twig": "^3.0",
+        "setasign/fpdf": "dev-master",
+        "mpdf/mpdf": "^6.1",
+        "tecnickcom/tcpdf": "dev-main"
     }
 }

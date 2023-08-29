@@ -25,6 +25,7 @@ SimpleRouter::match(['get','post'],URL_SITE.'usuarios','SiteControlador@usuarios
 SimpleRouter::match(['get','post'],URL_SITE.'locais','SiteControlador@locais');
 SimpleRouter::match(['get','post'],URL_SITE.'local/'.'{id}','SiteControlador@local');
 SimpleRouter::match(['get','post'],URL_SITE.'relatorio','SiteControlador@relatorio');
+SimpleRouter::get(URL_SITE.'relatorio/download','SiteControlador@download');
 SimpleRouter::get(URL_SITE.'erro404','SiteControlador@erro404');
 SimpleRouter::post(URL_SITE.'buscar','SiteControlador@buscarRegistros');
 SimpleRouter::post(URL_SITE.'buscarProdutos','SiteControlador@buscarProdutos');

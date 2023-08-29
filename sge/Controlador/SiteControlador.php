@@ -7,6 +7,8 @@ namespace sge\Controlador;
  *
  * @author Leonardo
  */
+use FPDF;
+
 use sge\Modelo\PostLocal;
 use sge\Modelo\Busca;
 use sge\Nucleo\Controlador;
@@ -17,10 +19,14 @@ use sge\Modelo\ProdutoModelo;
 use sge\Modelo\RegistrosModelo;
 use sge\Modelo\UserModelo;
 use sge\Modelo\Contar;
+use sge\Modelo\RelatorioModelo;
+use sge\Nucleo\Sessao;
 class SiteControlador extends Controlador {
+     private $sessao;
 
     public function __construct() {
         parent::__construct('templates/site/views');
+           $this->sessao = new Sessao();
     }
 
     public function index(): void {
@@ -256,9 +262,83 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
             'totalPaginas' => $totalPaginas, 'total' => $totalRegistros]);
     }
 
-    public function relatorio(): void {
-        echo $this->template->renderizar('relatorio.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Relatório']);
+ public function relatorio(): void {
+    $locais = (new Busca())->busca(null, null, 'locais', null, 'nome ASC', null);
+    $relatorio = [];
+    $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
+    
+    if (isset($dados)) {
+        $relatorio = (new RelatorioModelo())->buscaRegistros($dados);
+        if(empty($relatorio)){
+              $this->mensagem->erro('Registros não exitem, consulte o banco de dados!')->flash();
+        }
+      
     }
+
+  $this->sessao->criar('relatorio', $relatorio);
+    echo $this->template->renderizar('relatorio.html', [
+        'usuario' => 'Leonardo',
+        'titulo' => 'SGE-SEMSA Relatório',
+        'relatorio' => $relatorio,
+        'locais' => $locais
+    ]);
+}
+
+public function download(): void {
+    $sessao = (new Sessao())->carregar();
+    $relatorio = $sessao->relatorio;
+    
+    if (!empty($relatorio)) {
+        $pdf = new FPDF('L');
+        $pdf->AddPage();
+        $pdf->SetFont('Arial', 'B', 10);
+
+  $pageWidth = $pdf->GetPageWidth();
+
+// Definir a largura total da tabela
+$tableWidth = 60 + 19 + 40 + 30 + 18 + 47 + 12 + 36; // Somar larguras das células
+
+// Calcula a posição central horizontal para a tabela
+$tableStartX = ($pageWidth - $tableWidth) / 2;
+$pdf->SetXY($tableStartX, 10);
+
+  
+        // Cabeçalho da tabela
+        $pdf->Cell(60, 10, utf8_decode('Nome'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(19, 10, utf8_decode('Ação'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(40, 10, utf8_decode('Fabricante'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(30, 10, utf8_decode('Fornecedor'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(18, 10, utf8_decode('Qnt.'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(47, 10, utf8_decode('Local'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(12, 10, utf8_decode('Lote'), 1,0, 'C', false, '', 14);
+        $pdf->Cell(36, 10, utf8_decode('Data'), 1,0, 'C', false, '', 14);
+        $pdf->Ln();
+
+        // Conteúdo da tabela
+       foreach ($relatorio as $registro) {
+    // Posiciona o cursor no centro horizontal da página
+    $pdf->SetXY($tableStartX, $pdf->GetY());
+
+            $pdf->Cell(60, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->nome,30))), 1);
+            $pdf->Cell(19, 7, $registro->acao, 1);
+            
+        $pdf->Cell(40, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fabricante, 16))), 1);
+            $pdf->Cell(30, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fornecedor,12))), 1);
+            $pdf->Cell(18, 7, $registro->quantidade, 1);
+            $pdf->Cell(47, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->local, 24))), 1);
+            $pdf->Cell(12, 7, $registro->lote, 1);
+            $pdf->Cell(36, 7, $registro->data_hora, 1);
+            $pdf->Ln();
+        }
+
+        $pdf->Output();
+        exit();
+    } else {
+        // Redirecionar ou mostrar uma mensagem de erro se os dados do relatório não estiverem disponíveis
+    }
+}
+
+    
 
     public function erro404(): void {
         echo $this->template->renderizar('error404.html', ['usuario' => 'Leonardo', 'titulo' => 'Página não Encontrada']);

@@ -57,4 +57,12 @@ public function flash(): ?Mensagem {
     }
     return null;
 }
+  public function armazenarRelatorio(array $relatorio): Sessao {
+        $_SESSION['relatorio'] = $relatorio;
+        return $this;
+    }
+
+    public function obterRelatorio(): ?array {
+        return isset($_SESSION['relatorio']) ? $_SESSION['relatorio'] : null;
+    }
         }

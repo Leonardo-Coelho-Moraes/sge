@@ -10,6 +10,7 @@ namespace sge\Modelo;
  *
  * @author Leonardo
  */
+use PDO;
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
@@ -80,14 +81,29 @@ public function deletar(int $id): void {
         $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
         return $resultado->total; // Acesse a propriedade diretamente
     }
-    public function pesquisa(string $buscar) {
-        
-       $query = "SELECT * FROM produtos WHERE nome LIKE '%{$buscar}%' ORDER BY nome DESC";
- $stmt = Conexao::getInstancia()->query($query);
-        $resultado = $stmt->fetchAll(); // Use fetch() em vez de fetchAll()
-        return $resultado; 
+   public function pesquisa(string $buscar) {
+    $conexao = Conexao::getInstancia();
+    
+    $query = "SELECT * FROM produtos 
+              WHERE nome LIKE :buscar 
+              OR fabricante LIKE :buscar 
+              OR tipo_embalagem LIKE :buscar 
+              OR unidades_embalagem LIKE :buscar 
+              OR tipo_produtos LIKE :buscar 
+              OR modelo LIKE :buscar 
+              OR departamento LIKE :buscar 
+              OR lote LIKE :buscar 
+              OR fornecedor LIKE :buscar 
+              ORDER BY nome DESC";
+              
+    $stmt = $conexao->prepare($query);
+    $stmt->bindValue(':buscar', '%' . $buscar . '%', PDO::PARAM_STR);
+    $stmt->execute();
+    
+    $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $resultado;
+}
 
-    }
 
    }
 
