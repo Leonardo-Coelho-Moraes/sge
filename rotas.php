@@ -29,10 +29,11 @@ SimpleRouter::get(URL_SITE.'relatorio/download','SiteControlador@download');
 SimpleRouter::get(URL_SITE.'erro404','SiteControlador@erro404');
 SimpleRouter::post(URL_SITE.'buscar','SiteControlador@buscarRegistros');
 SimpleRouter::post(URL_SITE.'buscarProdutos','SiteControlador@buscarProdutos');
+SimpleRouter::match(['get','post'],URL_SITE.'login','AdminLogin@login');
 
 SimpleRouter::start();
 } catch (Pecee\SimpleRouter\Exceptions\NotFoundHttpException $ex) {
-    if(!Helpers::localhost()){
+    if(Helpers::localhost()){
         echo $ex;
     }
   

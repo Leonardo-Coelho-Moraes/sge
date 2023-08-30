@@ -12,7 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/login.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/aside.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/Busca.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/AdminLogin.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/UserModelo.php</file>
             <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/SiteControlador.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/rotas.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/buscar.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/UsuarioControlador.php</file>
         </group>
     </open-files>
 </project-private>

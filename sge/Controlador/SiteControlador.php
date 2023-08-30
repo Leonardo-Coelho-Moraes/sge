@@ -21,17 +21,30 @@ use sge\Modelo\UserModelo;
 use sge\Modelo\Contar;
 use sge\Modelo\RelatorioModelo;
 use sge\Nucleo\Sessao;
+use sge\Controlador\UsuarioControlador;
 class SiteControlador extends Controlador {
      private $sessao;
+     protected $usuario;
 
     public function __construct() {
         parent::__construct('templates/site/views');
+        $this->usuario = UsuarioControlador::usuario();
+        if(!$this->usuario)
+        {
+            $this->mensagem->erro('Faça o login para acessar o sistema!')->flash();
+             Helpers::redirecionar('login');
+             $limpar = (new Sessao())->limpar('usuarioId');
+        }
+        
            $this->sessao = new Sessao();
+           
+           
+           
     }
 
     public function index(): void {
-      
-        echo $this->template->renderizar('index.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Dashboard']);
+        Helpers::redirecionar('entrada');
+       // echo $this->template->renderizar('index.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Dashboard']);
     }
 
     public function entrada(): void {
