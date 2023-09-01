@@ -2,7 +2,7 @@
 
 namespace sge\Suporte;
 use sge\Nucleo\Helpers;
-
+use sge\Controlador\UsuarioControlador;
 use Twig\Lexer;
 class Template
 {
@@ -34,6 +34,9 @@ class Template
             })),
                          $this->twig->addFunction(new \Twig\TwigFunction('flash', function () {
                 return Helpers::flash();
+            })),
+                             $this->twig->addFunction(new \Twig\TwigFunction('usuario', function () {
+                return UsuarioControlador::usuario();
             })),
                   
         );

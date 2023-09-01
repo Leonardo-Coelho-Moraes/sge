@@ -25,8 +25,10 @@ use sge\Controlador\UsuarioControlador;
 class SiteControlador extends Controlador {
      private $sessao;
      protected $usuario;
+     protected $user;
 
-    public function __construct() {
+
+     public function __construct() {
         parent::__construct('templates/site/views');
         $this->usuario = UsuarioControlador::usuario();
         if(!$this->usuario)
@@ -35,19 +37,25 @@ class SiteControlador extends Controlador {
              Helpers::redirecionar('login');
              $limpar = (new Sessao())->limpar('usuarioId');
         }
+          
         
            $this->sessao = new Sessao();
            
-           
+           $this->user = UsuarioControlador::usuario()->nome;   
            
     }
 
     public function index(): void {
-        Helpers::redirecionar('entrada');
-       // echo $this->template->renderizar('index.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Dashboard']);
+        
+        if($this->usuario->nivel_acesso >3){
+        echo $this->template->renderizar('index.html', [ 'titulo' => 'SGE-SEMSA Dashboard']);}
+        else{
+        Helpers::redirecionar('entrada');}
     }
 
     public function entrada(): void {
+      
+        
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
          $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
@@ -56,13 +64,14 @@ class SiteControlador extends Controlador {
           $soma =  (new RegistrosModelo())->somarQuantidades('registros', "acao = 'entrada'");
           $edicao = (new Contar())->contar('registros',"editado = 1 AND acao = 'entrada'");
           
+          
         $registros = (new Busca())->busca($pagina, $limite,'registros', "acao = 'entrada'", 'data_hora DESC');
         $totalRegistros = (new EntradaModelo())->contaRegistros();
         $totalPaginas = ceil($totalRegistros / $limite);
      
         
 
-        echo $this->template->renderizar('entrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Entrada', 'registros' => $registros,
+        echo $this->template->renderizar('entrada.html', [ 'titulo' => 'SGE-SEMSA Entrada', 'registros' => $registros,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade,'edicao' =>$edicao, 'soma' => $soma]);
     }
@@ -77,7 +86,7 @@ class SiteControlador extends Controlador {
             $this->mensagem->sucesso('Entrada Adicionada com Sucesso!')->flash();
             Helpers::redirecionar('entrada/adicionar');
         }
-        echo $this->template->renderizar('formularios/adicionarentrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos, 'locais' => $locais]);
+        echo $this->template->renderizar('formularios/adicionarentrada.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos, 'locais' => $locais]);
     }
 
     public function editar_entrada(int $id): void {
@@ -90,7 +99,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
             (new RegistrosModelo())->atualizar($dados, $id);
             Helpers::redirecionar('entrada');
         }
-        echo $this->template->renderizar('formularios/editarentrada.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
+        echo $this->template->renderizar('formularios/editarentrada.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
     }
 
     public function saida(): void {
@@ -106,7 +115,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
         $totalPaginas = ceil($totalRegistros / $limite);
 
-        echo $this->template->renderizar('saida.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Saída', 'registros' => $registros,
+        echo $this->template->renderizar('saida.html', [ 'titulo' => 'SGE-SEMSA Saída', 'registros' => $registros,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'produtos'=> $produtos, 'locais'=>$locais, 'quantidade' =>$quantidade, 'edicao' => $edicao,'soma' => $soma]);
     }
@@ -123,7 +132,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         }
           
         
-        echo $this->template->renderizar('formularios/adicionarsaida.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos, 'locais' => $locais]);
+        echo $this->template->renderizar('formularios/adicionarsaida.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos, 'locais' => $locais]);
     }
 
     public function editar_saida(int $id): void {
@@ -139,7 +148,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
          
             Helpers::redirecionar('saida');
         }
-        echo $this->template->renderizar('formularios/editarsaida.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
+        echo $this->template->renderizar('formularios/editarsaida.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
     }
 
     public function produtos(): void {
@@ -154,7 +163,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $totalPaginas = ceil($totalRegistros / $limite);
        
 
-        echo $this->template->renderizar('produtos.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos,
+        echo $this->template->renderizar('produtos.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas,'quantidade' =>$quantidade,'edicao' =>$edicao, 'deletado' => $deletado]);
     }
@@ -168,7 +177,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
             Helpers::redirecionar('produtos');
         }
 
-        echo $this->template->renderizar('formularios/cadastrarproduto.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos']);
+        echo $this->template->renderizar('formularios/cadastrarproduto.html', [ 'titulo' => 'SGE-SEMSA Produtos']);
     }
 
     public function editar_produto(int $id): void {
@@ -182,7 +191,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         }
 
 
-        echo $this->template->renderizar('formularios/editarproduto.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Produtos', 'produto' => $produtos]);
+        echo $this->template->renderizar('formularios/editarproduto.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produto' => $produtos]);
     }
 
     public function deletar_produto(int $id): void {
@@ -207,7 +216,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         if (!$produto) {
             Helpers::redirecionar("erro404");
         }
-        echo $this->template->renderizar('produto.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA ' . $nome, 'registros' => $registros, 'produto' => $produto,
+        echo $this->template->renderizar('produto.html', [ 'titulo' => 'SGE-SEMSA ' . $nome, 'registros' => $registros, 'produto' => $produto,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'total' => $totalRegistros]);
       
@@ -228,20 +237,25 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
          $quantidadeSaidas = (new Contar())->contar('registros',"acao = 'saida'");
          $edicao = (new Contar())->contar('registros',"editado = 1");
          $soma =  (new RegistrosModelo())->somarQuantidades('registros', null);
-        echo $this->template->renderizar('registros.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Registros', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
+        echo $this->template->renderizar('registros.html', [ 'titulo' => 'SGE-SEMSA Registros', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'quantidadeEntradas' => $quantidadeEntradas, 'quantidadeSaidas' => $quantidadeSaidas, 'edicao' => $edicao, 'soma'=>$soma]);
     }
 
     public function usuarios(): void {
-        $usuarios = (new Busca())->busca(null,null,'usuarios',null,'criado_em DESC',null);
+        if($this->usuario->nivel_acesso >1){
+     $usuarios = (new Busca())->busca(null,null,'usuarios','deletado = 0','criado_em DESC',null);
          $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new UserModelo())->cadastro($dados);
             Helpers::redirecionar('usuarios');
         }
 
-        echo $this->template->renderizar('usuarios.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Usuários', 'usuarios' => $usuarios]);
+        echo $this->template->renderizar('usuarios.html', [ 'titulo' => 'SGE-SEMSA Usuários', 'usuarios' => $usuarios]);}
+        else{ 
+                $this->mensagem->erro('Nível insuficiente!')->flash();
+            Helpers::redirecionar('entrada');}
+   
     }
 
     public function locais(): void {
@@ -253,7 +267,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
             Helpers::redirecionar('locais');
         }
-        echo $this->template->renderizar('locais.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA Locais', 'locais' => $locais]);
+        echo $this->template->renderizar('locais.html', [ 'titulo' => 'SGE-SEMSA Locais', 'locais' => $locais]);
     }
 
     public function local(int $id): void {
@@ -270,7 +284,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         if (!$locais) {
             Helpers::redirecionar("erro404");
         }
-        echo $this->template->renderizar('local.html', ['usuario' => 'Leonardo', 'titulo' => 'SGE-SEMSA ' . $nome, 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
+        echo $this->template->renderizar('local.html', [ 'titulo' => 'SGE-SEMSA ' . $nome, 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais,
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'total' => $totalRegistros]);
     }
@@ -290,7 +304,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
   $this->sessao->criar('relatorio', $relatorio);
     echo $this->template->renderizar('relatorio.html', [
-        'usuario' => 'Leonardo',
+        
         'titulo' => 'SGE-SEMSA Relatório',
         'relatorio' => $relatorio,
         'locais' => $locais
@@ -298,8 +312,9 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 }
 
 public function download(): void {
-    $sessao = (new Sessao())->carregar();
-    $relatorio = $sessao->relatorio;
+   
+   
+    $relatorio =  $this->sessao->carregar()->relatorio;
     
     if (!empty($relatorio)) {
         $pdf = new FPDF('L');
@@ -333,7 +348,7 @@ $pdf->SetXY($tableStartX, 10);
     $pdf->SetXY($tableStartX, $pdf->GetY());
 
             $pdf->Cell(60, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->nome,30))), 1);
-            $pdf->Cell(19, 7, $registro->acao, 1);
+            $pdf->Cell(19, 7, ucfirst($registro->acao), 1);
             
         $pdf->Cell(40, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fabricante, 16))), 1);
             $pdf->Cell(30, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fornecedor,12))), 1);
@@ -354,7 +369,7 @@ $pdf->SetXY($tableStartX, 10);
     
 
     public function erro404(): void {
-        echo $this->template->renderizar('error404.html', ['usuario' => 'Leonardo', 'titulo' => 'Página não Encontrada']);
+        echo $this->template->renderizar('error404.html', [ 'titulo' => 'Página não Encontrada']);
     }
 
     public function buscarRegistros(): void {
@@ -365,7 +380,7 @@ $pdf->SetXY($tableStartX, 10);
             $pesquisas = (new EntradaModelo())->pesquisa($buscar);
            
         }
-        echo $this->template->renderizar('buscar.html', ['usuario' => 'Leonardo', 'titulo' => 'Página não Encontrada', 'pesquisas'=>$pesquisas,'produtos'=> $produtos, 'locais'=>$locais]);
+        echo $this->template->renderizar('buscar.html', [ 'titulo' => 'Página não Encontrada', 'pesquisas'=>$pesquisas,'produtos'=> $produtos, 'locais'=>$locais]);
     }
     
      public function buscarProdutos(): void {
@@ -375,6 +390,12 @@ $pdf->SetXY($tableStartX, 10);
             $pesquisas = (new ProdutoModelo())->pesquisa($buscar);
            
         }
-        echo $this->template->renderizar('buscarProdutos.html', ['usuario' => 'Leonardo', 'titulo' => 'Página não Encontrada', 'produtos'=>$pesquisas]);
+        echo $this->template->renderizar('buscarProdutos.html', [ 'titulo' => 'Página não Encontrada', 'produtos'=>$pesquisas]);
+    }
+    public function sair(): void {
+        $this->sessao->limpar('usuarioId');
+         $this->mensagem->sucesso('Você deslogou do sistema!')->flash();
+        Helpers::redirecionar('login');
+       
     }
 }

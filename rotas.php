@@ -22,6 +22,8 @@ SimpleRouter::match(['get', 'post'], URL_SITE . 'produtos/{id}', 'SiteControlado
 
 SimpleRouter::get(URL_SITE.'registros','SiteControlador@registros');
 SimpleRouter::match(['get','post'],URL_SITE.'usuarios','SiteControlador@usuarios');
+SimpleRouter::match(['get','post'],URL_SITE.'usuarios/editar/{id}','UsuarioControlador@editar_usuario');
+SimpleRouter::match(['get','post'],URL_SITE.'usuarios/deletar/{id}','UsuarioControlador@deletar_usuario');
 SimpleRouter::match(['get','post'],URL_SITE.'locais','SiteControlador@locais');
 SimpleRouter::match(['get','post'],URL_SITE.'local/'.'{id}','SiteControlador@local');
 SimpleRouter::match(['get','post'],URL_SITE.'relatorio','SiteControlador@relatorio');
@@ -30,6 +32,7 @@ SimpleRouter::get(URL_SITE.'erro404','SiteControlador@erro404');
 SimpleRouter::post(URL_SITE.'buscar','SiteControlador@buscarRegistros');
 SimpleRouter::post(URL_SITE.'buscarProdutos','SiteControlador@buscarProdutos');
 SimpleRouter::match(['get','post'],URL_SITE.'login','AdminLogin@login');
+SimpleRouter::get(URL_SITE.'sair','SiteControlador@sair');
 
 SimpleRouter::start();
 } catch (Pecee\SimpleRouter\Exceptions\NotFoundHttpException $ex) {
@@ -39,5 +42,6 @@ SimpleRouter::start();
   
     else{
      Helpers::redirecionar('erro404');}
+     
      
 }

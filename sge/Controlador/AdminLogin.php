@@ -19,7 +19,6 @@ class AdminLogin extends Controlador {
 
    
      public function login(): void {
-        
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             if ($this->ChecarDados($dados)){
