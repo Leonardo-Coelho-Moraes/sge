@@ -26,6 +26,7 @@ class SiteControlador extends Controlador {
      private $sessao;
      protected $usuario;
      protected $user;
+     protected $nivel_user;
 
 
      public function __construct() {
@@ -38,8 +39,9 @@ class SiteControlador extends Controlador {
              $limpar = (new Sessao())->limpar('usuarioId');
         }
           
-        
+        $this->nivel_user = UsuarioControlador::usuario()->nivel_acesso;
            $this->sessao = new Sessao();
+           
            
            $this->user = UsuarioControlador::usuario()->nome;   
            
@@ -90,6 +92,7 @@ class SiteControlador extends Controlador {
     }
 
     public function editar_entrada(int $id): void {
+         if($this->nivel_user > 2){
        $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $registros = (new Busca())->buscaId('registros',$id);
@@ -99,7 +102,11 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
             (new RegistrosModelo())->atualizar($dados, $id);
             Helpers::redirecionar('entrada');
         }
-        echo $this->template->renderizar('formularios/editarentrada.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
+         echo $this->template->renderizar('formularios/editarentrada.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);}
+         else{
+    $this->mensagem->erro('Tentativa de editar entrada está fora de seu alcançe!')->flash();
+            Helpers::redirecionar('entrada');
+}
     }
 
     public function saida(): void {
@@ -136,6 +143,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function editar_saida(int $id): void {
+          if($this->nivel_user > 2){
       $produtos = (new Busca())->busca(null,null,'produtos',"deletado != 1 OR deletado IS NULL ",'nome ASC',null);
         $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
         $registros = (new Busca())->buscaId('registros',$id);
@@ -144,11 +152,15 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         if (isset($dados)) {
 
             (new RegistrosModelo())->atualizar($dados, $id);
-            $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
+            $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos e quantidade de saídas!')->flash();
          
             Helpers::redirecionar('saida');
         }
-        echo $this->template->renderizar('formularios/editarsaida.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);
+          echo $this->template->renderizar('formularios/editarsaida.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);}
+          else{
+    $this->mensagem->erro('Tentativa de editar saída está fora de seu alcançe!')->flash();
+            Helpers::redirecionar('saida');
+}
     }
 
     public function produtos(): void {
@@ -181,25 +193,30 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function editar_produto(int $id): void {
-
+         if($this->nivel_user > 2){
         $produtos = (new Busca())->buscaId('produtos',$id);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new ProdutoModelo())->atualizar($dados, $id);
             $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
-            Helpers::redirecionar('produtos');
+            Helpers::redirecionar('produtos/'.$id);
         }
 
 
         echo $this->template->renderizar('formularios/editarproduto.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produto' => $produtos]);
     }
+     else{
+    $this->mensagem->erro('Tentativa de editar produto está fora de seu alcançe!')->flash();
+            Helpers::redirecionar('produtos');
+}
+        }
 
     public function deletar_produto(int $id): void {
         
-        
+         if($this->nivel_user > 2){
         (new ProdutoModelo())->deletar($id);
         $this->mensagem->sucesso('Produto inserido na lista de deletados com sucesso!')->flash();
-        Helpers::redirecionar('produtos');
+         Helpers::redirecionar('produtos');}
     }
     
     public function produto(int $id): void {

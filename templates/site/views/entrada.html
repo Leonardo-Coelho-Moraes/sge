@@ -41,9 +41,11 @@
                 <th scope="col" class="px-6 py-3">
                     Data
                 </th>
+                 {% if usuario().nivel_acesso >2 %}
                 <th scope="col" class="px-6 py-3">
                     Ação
                 </th>
+                  {% endif %}
             </tr>
         </thead>
         <tbody>
@@ -73,7 +75,7 @@
                 </td>
                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    {{registro.data_hora}}
-                </td>
+                </td> {% if usuario().nivel_acesso >2 %}
                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                    <a href="{{url('entrada/editar/'~registro.id)}}" class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-400">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -81,7 +83,7 @@
 </svg>
                   </a>
                 </td>
-               
+                {%endif %}
             </tr>
         {%endfor%}
           

@@ -34,8 +34,8 @@
               <th scope="col" class="px-6 py-3">Ação</th>
               <th scope="col" class="px-6 py-3">Quantidade</th>
                <th scope="col" class="px-6 py-3">Local</th>
-              <th scope="col" class="px-6 py-3">Data</th>
-              <th scope="col" class="px-6 py-3">Editar</th>
+              <th scope="col" class="px-6 py-3">Data</th>{% if usuario().nivel_acesso >2 %}
+              <th scope="col" class="px-6 py-3">Editar</th>{% endif%}
             </tr>
           </thead>
           <tbody>
@@ -60,7 +60,7 @@
                         {% endif %}
                     {% endfor %}
                     <a href="{{url('local/'~registro.local_id)}}" class="hover:text-blue-500">{{maiuscula(slug(localNome))  }}</a></td>
-              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.data_hora}}</td>
+              <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{registro.data_hora}}</td>{% if usuario().nivel_acesso >2 %}
               <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
             {% if registro.acao == 'entrada' %}
                 <a href="{{ url('entrada/editar/'~registro.id) }}" class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-400"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#fff" class="bi bi-pencil" viewBox="0 0 16 16">
@@ -72,7 +72,7 @@
 </svg></a>
             {% endif %}
         </td>
-            
+            {% endif %}
             </tr>
             
               {%endfor%}

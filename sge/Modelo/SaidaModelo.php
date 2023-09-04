@@ -31,11 +31,11 @@ class SaidaModelo {
            Helpers::redirecionar('entrada/adicionar');
         }
        
-              $query = "UPDATE produtos SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?";
+              $query = "UPDATE produtos SET quantidade_estoque = quantidade_estoque - ?, quantidade_saida = quantidade_saida + ? WHERE id = ?";
     $stmt = Conexao::getInstancia()->prepare($query);
     
     // Execute a consulta preparada com os valores apropriados
-    $stmt->execute([$quantidade, $produto]);
+    $stmt->execute([$quantidade,$quantidade, $produto]);
 }
 
  public function saidaRegisto(array $dados): void {

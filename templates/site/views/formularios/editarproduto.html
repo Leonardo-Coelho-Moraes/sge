@@ -1,6 +1,7 @@
 {%extends 'base.html'%}
 {% block conteudo %}
 <div class="w-full  p-5 justify-start">
+    {% if usuario().nivel_acesso >2 %}
     <div class="mb-3 ">
     <a href="{{url('produtos')}}" class="text-white font-medium hover:text-gray-600">Produtos / </a>
     <a href="#" class="text-white font-medium ">Editar</a>
@@ -123,5 +124,6 @@
 
 
 </div>
+    {% endif %}
     </div>
 {% endblock %}

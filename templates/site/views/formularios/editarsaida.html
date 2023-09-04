@@ -1,6 +1,7 @@
 {%extends 'base.html'%}
 {% block conteudo %}
 <div class="flex w-full p-5 flex-col justify-start  ">
+    {% if usuario().nivel_acesso >2 %}
     <div class="mb-3 ">
     <a href="{{url('saida')}}" class="text-white font-medium hover:text-gray-600">Saída / </a>
     <a href="#" class="text-white font-medium ">Editar</a>
@@ -54,5 +55,6 @@
 
 
 </div>
+    {% endif %}
     </div>
 {% endblock %}

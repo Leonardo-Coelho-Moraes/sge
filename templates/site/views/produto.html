@@ -4,8 +4,9 @@
   <div class="mb-3 ">
     <a href="{{url('produtos')}}" class="text-gray-800 font-medium hover:text-gray-600">Produtos / </a>
     <a href="#" class="text-gray-800 font-medium">{{maiuscula(slug(produto.nome))}}</a>
-  </div>
+  </div> {{flash()}}
   <div class=" w-full flex  justify-center items-start gap-8 overflow-y-scroll overflow-x-auto  " style="max-height:80vh;">
+   
       <div class="w-2/5 flex flex-col wrap gap-1  items-start justify-center dark:bg-gray-900 dark:border-gray-700 rounded-lg p-3 h-full">
           <h2 class="text-lg font-medium text-gray-900 dark:text-white">Info</h2>
           <hr />
