@@ -135,6 +135,31 @@ public static function validarString($valor) {
         return strtolower($valor);
      
     }
+   public static function validadarDados(array $dados):array
+{
+    $resultados = [];
+
+    foreach ($dados as $chave => $valor) {
+        if (is_string($valor)) {
+            // Se for uma string, aplique a validação de string
+            $resultado = self::textTraco(self::validarString($valor));
+        } elseif (is_numeric($valor)) {
+            // Se for um número, aplique a validação de número
+            $resultado = self::validarNumero($valor);
+        } elseif (strtotime($valor)) {
+            // Se for uma data válida, não faça validação
+            $resultado = $valor;
+        } else {
+            // Outros tipos de dados não são tratados aqui
+            $resultado = $valor;
+        }
+
+        $resultados[$chave] = $resultado;
+    }
+
+    return $resultados;
+}
+
 
 
 }

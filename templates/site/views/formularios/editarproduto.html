@@ -28,9 +28,57 @@
                     </label>
                       <select name="tipo" id="tipo"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value=""></option>
-                  <option value="analgesico" {% if "analgesico" == produto.tipo_produtos %}selected{% endif %}>Analgesico</option>
-                  <option value="antibiotico" {% if "antibiotico" == produto.tipo_produtos %}selected{% endif %}>Antibiotico</option>
-                  <option value="antialergico" {% if "antialergico" == produto.tipo_produtos %}selected{% endif %}>Antialergico</option>
+                  
+                                 <option value="analgesico" {% if "analgesico" == produto.tipo_produtos %}selected{% endif %}>Analgesico</option>
+    <option value="antibiotico" {% if "antibiotico" == produto.tipo_produtos %}selected{% endif %}>Antibiotico</option>
+    <option value="antitetanico" {% if "antitetanico" == produto.tipo_produtos %}selected{% endif %}>Antitetanico</option>
+    <option value="anti-inflamatorios" {% if "anti-inflamatorios" == produto.tipo_produtos %}selected{% endif %}>Anti-inflamatorios</option>
+    <option value="antidepressivos" {% if "antidepressivos" == produto.tipo_produtos %}selected{% endif %}>Antidepressivos</option>
+    <option value="antialergicos" {% if "antialergicos" == produto.tipo_produtos %}selected{% endif %}>Antialergicos</option>
+    <option value="antipireticos" {% if "antipireticos" == produto.tipo_produtos %}selected{% endif %}>Antipireticos</option>
+    <option value="anti-hipertensivos" {% if "anti-hipertensivos" == produto.tipo_produtos %}selected{% endif %}>Anti-hipertensivos</option>
+    <option value="anticoagulantes" {% if "anticoagulantes" == produto.tipo_produtos %}selected{% endif %}>Anticoagulantes</option>
+    <option value="antivirais" {% if "antivirais" == produto.tipo_produtos %}selected{% endif %}>Antivirais</option>
+    <option value="antifungicos" {% if "antifungicos" == produto.tipo_produtos %}selected{% endif %}>Antifungicos</option>
+    <option value="diureticos" {% if "diureticos" == produto.tipo_produtos %}selected{% endif %}>Diureticos</option>
+    <option value="sedativos" {% if "sedativos" == produto.tipo_produtos %}selected{% endif %}>Sedativos</option>
+    <option value="hipnoticos" {% if "hipnoticos" == produto.tipo_produtos %}selected{% endif %}>Hipnoticos</option>
+    <option value="antiespasmodicos" {% if "antiespasmodicos" == produto.tipo_produtos %}selected{% endif %}>Antiespasmodicos</option>
+    <option value="broncodilatadores" {% if "broncodilatadores" == produto.tipo_produtos %}selected{% endif %}>Broncodilatadores</option>
+    <option value="anti-histaminicos" {% if "anti-histaminicos" == produto.tipo_produtos %}selected{% endif %}>Anti-histaminicos</option>
+    <option value="antiemeticos" {% if "antiemeticos" == produto.tipo_produtos %}selected{% endif %}>Antiemeticos</option>
+    <option value="laxantes" {% if "laxantes" == produto.tipo_produtos %}selected{% endif %}>Laxantes</option>
+    <option value="suplementos_vitaminicos" {% if "suplementos_vitaminicos" == produto.tipo_produtos %}selected{% endif %}>Suplementos vitaminicos</option>
+    <option value="anticoncepcionais" {% if "anticoncepcionais" == produto.tipo_produtos %}selected{% endif %}>Anticoncepcionais</option>
+    <option value="antiepilepticos" {% if "antiepilepticos" == produto.tipo_produtos %}selected{% endif %}>Antiepilepticos</option>
+    <option value="antiparasitarios" {% if "antiparasitarios" == produto.tipo_produtos %}selected{% endif %}>Antiparasitarios</option>
+    <option value="antiacidos" {% if "antiacidos" == produto.tipo_produtos %}selected{% endif %}>Antiacidos</option>
+    <option value="antiespasmodicos_gastrointestinais" {% if "antiespasmodicos_gastrointestinais" == produto.tipo_produtos %}selected{% endif %}>Antiespasmodicos gastrointestinais</option>
+    <option value="agentes_hormonais" {% if "agentes_hormonais" == produto.tipo_produtos %}selected{% endif %}>Agentes hormonais</option>
+    <option value="agentes_citotoxicos" {% if "agentes_citotoxicos" == produto.tipo_produtos %}selected{% endif %}>Agentes citotoxicos</option>
+    <option value="cardiotonicos" {% if "cardiotonicos" == produto.tipo_produtos %}selected{% endif %}>Cardiotonicos</option>
+    <option value="antifibroticos" {% if "antifibroticos" == produto.tipo_produtos %}selected{% endif %}>Antifibroticos</option>
+    <option value="agentes_estimulantes_da_tireoide" {% if "agentes_estimulantes_da_tireoide" == produto.tipo_produtos %}selected{% endif %}>Agentes estimulantes da tireoide</option>
+    <option value="antiarritmicos" {% if "antiarritmicos" == produto.tipo_produtos %}selected{% endif %}>Antiarritmicos</option>
+    <option value="antiparkinsonianos" {% if "antiparkinsonianos" == produto.tipo_produtos %}selected{% endif %}>Antiparkinsonianos</option>
+    <option value="agentes_anti-hemorragicos" {% if "agentes_anti-hemorragicos" == produto.tipo_produtos %}selected{% endif %}>Agentes anti-hemorragicos</option>
+    <option value="agentes_anti-ulceras" {% if "agentes_anti-ulceras" == produto.tipo_produtos %}selected{% endif %}>Agentes anti-ulceras</option>
+    <option value="antitussigenos" {% if "antitussigenos" == produto.tipo_produtos %}selected{% endif %}>Antitussigenos</option>
+    <option value="antimicoticos" {% if "antimicoticos" == produto.tipo_produtos %}selected{% endif %}>Antimicoticos</option>
+    <option value="antirretrovirais" {% if "antirretrovirais" == produto.tipo_produtos %}selected{% endif %}>Antirretrovirais (HIV/AIDS)</option>
+    <option value="anticonvulsivantes" {% if "anticonvulsivantes" == produto.tipo_produtos %}selected{% endif %}>Anticonvulsivantes</option>
+    <option value="corticosteroides" {% if "corticosteroides" == produto.tipo_produtos %}selected{% endif %}>Corticosteroides</option>
+    <option value="relaxantes_musculares" {% if "relaxantes_musculares" == produto.tipo_produtos %}selected{% endif %}>Relaxantes musculares</option>
+    <option value="agentes_de_contraste" {% if "agentes_de_contraste" == produto.tipo_produtos %}selected{% endif %}>Agentes de contraste (exames de imagem)</option>
+    <option value="antifibrinoliticos" {% if "antifibrinoliticos" == produto.tipo_produtos %}selected{% endif %}>Antifibrinoliticos</option>
+    <option value="agentes_anestesicos" {% if "agentes_anestesicos" == produto.tipo_produtos %}selected{% endif %}>Agentes anestesicos</option>
+    <option value="antiparasitarios_intestinais" {% if "antiparasitarios_intestinais" == produto.tipo_produtos %}selected{% endif %}>Antiparasitarios intestinais</option>
+    <option value="antipireticos_narcoticos" {% if "antipireticos_narcoticos" == produto.tipo_produtos %}selected{% endif %}>Antipireticos narcoticos</option>
+    <option value="agentes_bloqueadores_neuromusculares" {% if "agentes_bloqueadores_neuromusculares" == produto.tipo_produtos %}selected{% endif %}>Agentes bloqueadores neuromusculares</option>
+    <option value="agentes_estimulantes_do_apetite" {% if "agentes_estimulantes_do_apetite" == produto.tipo_produtos %}selected{% endif %}>Agentes estimulantes do apetite</option>
+    <option value="agentes_antitireoidianos" {% if "agentes_antitireoidianos" == produto.tipo_produtos %}selected{% endif %}>Agentes antitireoidianos</option>
+    <option value="antimaniacos" {% if "antimaniacos" == produto.tipo_produtos %}selected{% endif %}>Antimaniacos (transtorno bipolar)</option>
+    <option value="agentes_quelantes" {% if "agentes_quelantes" == produto.tipo_produtos %}selected{% endif %}>Agentes quelantes</option>
  
 </select>
                 </div>
@@ -40,25 +88,29 @@
                     </label>
                       <select name="modelo" id="modelo"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                   <option value=""></option>
-                  <option value="comprimido" {% if "comprimido" == produto.modelo %}selected{% endif %}>Compromido</option>
-                  <option value="injetavel" {% if "injetavel" == produto.modelo %}selected{% endif %}>Injetável</option>
-                  <option value="capsula" {% if "capsula" == produto.modelo %}selected{% endif %}>Capsula</option>
-                   <option value="gotas" {% if "gotas" == produto.modelo %}selected{% endif %}>Gotas</option>
- 
+                   <option value="injetavel" {% if "injetavel" == produto.modelo %}selected{% endif %}>Injetável</option>
+    <option value="comprimido" {% if "comprimido" == produto.modelo %}selected{% endif %}>Comprimido</option>
+    <option value="capsula" {% if "capsula" == produto.modelo %}selected{% endif %}>Cápsula</option>
+    <option value="gotas" {% if "gotas" == produto.modelo %}selected{% endif %}>Gotas</option>
+    <option value="pomada" {% if "pomada" == produto.modelo %}selected{% endif %}>Pomada</option>
+    <option value="creme" {% if "creme" == produto.modelo %}selected{% endif %}>Creme</option>
+    <option value="locao" {% if "locao" == produto.modelo %}selected{% endif %}>Loção</option>
+    <option value="supositorio" {% if "supositorio" == produto.modelo %}selected{% endif %}>Supositório</option>
+    <option value="spray" {% if "spray" == produto.modelo %}selected{% endif %}>Spray</option>
+    <option value="xarope" {% if "xarope" == produto.modelo %}selected{% endif %}>Xarope</option>
+    <option value="pilula" {% if "pilula" == produto.modelo %}selected{% endif %}>Pílula</option>
+    <option value="gel" {% if "gel" == produto.modelo %}selected{% endif %}>Gel</option>
+    <option value="solucao_oral" {% if "solucao_oral" == produto.modelo %}selected{% endif %}>Solução oral</option>
+    <option value="adesivo_transdermico" {% if "adesivo_transdermico" == produto.modelo %}selected{% endif %}>Adesivo transdérmico</option>
+    <option value="suspensao" {% if "suspensao" == produto.modelo %}selected{% endif %}>Suspensão</option>
+    <option value="po_para_reconstituicao" {% if "po_para_reconstituicao" == produto.modelo %}selected{% endif %}>Pó para reconstituição</option>
+    <option value="aerossol" {% if "aerossol" == produto.modelo %}selected{% endif %}>Aerossol</option>
+    <option value="colirio" {% if "colirio" == produto.modelo %}selected{% endif %}>Colírio</option>
+    <option value="pastilha" {% if "pastilha" == produto.modelo %}selected{% endif %}>Pastilha</option>
+    <option value="enema" {% if "enema" == produto.modelo %}selected{% endif %}>Enema</option>
 </select>
                 </div>
-                <div class="w-5/12">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="departamento">
-                       Departamento
-                    </label>
-                      <select name="departamento" id="departamento" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                  <option value=""></option>
-                  <option value="saude" {% if "saude" == produto.departamento %}selected{% endif %}>Saúde</option>
-                  <option value="odonto" {% if "odonto" == produto.departamento %}selected{% endif %}>Odonto</option>
-                  <option value="administracao" {% if "administracao" == produto.departamento %}selected{% endif %}>Administração</option>
- 
-</select>
-                </div>
+               
                 <div class="w-5/12">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="embalagem">
                         Tipo Embalagem
@@ -95,7 +147,7 @@
                     </label>
                      <input class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" value="{{produto.validade}}"  id="validade" type="date" name="validade"  required>
                 </div>
-                <div class=" w-10/12   	">
+                <div class=" w-5/12   	">
                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="quantidade" >
                         Quantidade
                     </label>

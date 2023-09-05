@@ -17,29 +17,17 @@ class RegistrosModelo {
 
 
 public function atualizar(array $dados, int $id): void {
-     $produto = Helpers::validarNumero($dados['produto']);
-     if(isset($dados['locais'])){
-     $locais = Helpers::validarNumero($dados['locais']);}
-     $locais = 6;
-     $true = 1;
-     $quantidade = Helpers::validarNumero($dados['quantidade']);
-        
-     if ($produto < 0 || $locais < 0 || $quantidade < 1 ) {
+    $resultados = Helpers::validadarDados($dados);
+               
+               $dadosArray = array('produto' => $resultados['produto'] , 'locais' => $resultados['locais'] , 'quantidade' =>   $resultados['quantidade'], 'editado' => 1);
+               
+     
+     if ($resultados['produto'] < 0 || $resultados['locais'] < 0 || $resultados['quantidade'] < 1 ) {
         $mensagem = (new Mensagem)->erro('Erro Verificar os dados enviador em forma de int')->flash();
         Helpers::redirecionar('registros');
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
-    $query = "UPDATE registros SET produto_id = :produto_id, local_id = :local_id, quantidade = :quantidade, editado =:editado WHERE id = :id";
-    $stmt = Conexao::getInstancia()->prepare($query);
-     
-    // Bind parameters explicitly
-    $stmt->bindParam(':produto_id', $produto);
-    $stmt->bindParam(':local_id', $locais);
-    $stmt->bindParam(':quantidade', $quantidade);
-    $stmt->bindParam(':editado', $true);
-    $stmt->bindParam(':id', $id);
-    // Execute the statement
-    $stmt->execute();
+   (new Atualizar())->atualizar('registros', "produto_id = ?, local_id = ?, quantidade = ?, editado = ?", $dadosArray, $id);
 }
 
     public function contaRegistros() {

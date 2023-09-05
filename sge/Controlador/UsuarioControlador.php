@@ -17,7 +17,8 @@ class UsuarioControlador extends Controlador {
     
 
     public function __construct() {
-        parent::__construct('templates/site/views');         
+        parent::__construct('templates/site/views');  
+        
     }
 
    
@@ -63,7 +64,14 @@ else{
        Helpers::redirecionar('usuarios');
        
     }
- }
+ } 
+ 
+    public function limpar_usuario() {
+    $horaAtual = date('H'); // Obtém a hora atual em formato de 24 horas
 
+        if ($horaAtual < 5 || $horaAtual > 18) {
+            $limpar = (new Sessao())->limpar('usuarioId'); // Chama o método de limpar a sessão
+        }
+ } 
     
 }

@@ -14,11 +14,9 @@
         <group>
             <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/registros.html</file>
             <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/UserModelo.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/entrada.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/Atualizar.php</file>
             <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/SiteControlador.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/rotas.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/SaidaModelo.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/produto.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/Inserir.php</file>
         </group>
     </open-files>
 </project-private>

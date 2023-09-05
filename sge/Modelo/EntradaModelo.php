@@ -12,37 +12,31 @@ namespace sge\Modelo;
  */
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
+use sge\Modelo\Inserir;
+use sge\Modelo\Atualizar;
 use sge\Nucleo\Conexao;
 class EntradaModelo {
     public function entrada(array $dados): void {
-        $produto =  Helpers::validarNumero($dados['produto']);
+      $id =  Helpers::validarNumero($dados['produto']);
       $quantidade =  Helpers::validarNumero($dados['quantidade']);
-       if ($quantidade <= 0) {
-           $mensagem = (new Mensagem)->erro('A quantidade precisa ser maior ou igual 1')->flash();
-           Helpers::redirecionar('entrada/adicionar');
-        }
-       
-       $query = "UPDATE produtos SET quantidade_estoque = quantidade_estoque + ? WHERE id = ?";
-       
-    $stmt = Conexao::getInstancia()->prepare($query);
-    // Execute a consulta preparada com os valores apropriados
-    $stmt->execute([$quantidade, $produto]);
+      $dadosArray = array('quantidade' => $quantidade);
+      if ($quantidade <= 0) {
+        $mensagem = (new Mensagem)->erro('A quantidade precisa ser maior ou igual 1')->flash();
+        Helpers::redirecionar('entrada/adicionar');
+      }
+      (new Atualizar())->atualizar('produtos', "quantidade_estoque = quantidade_estoque + ?", $dadosArray, $id);
 }
  public function entradaRegisto(array $dados): void {
-      $produto =  Helpers::validarNumero($dados['produto']);
-     $quantidade =  Helpers::validarNumero($dados['quantidade']);
-      if ($quantidade < 1) {
+       $resultados = Helpers::validadarDados($dados);
+               
+               $array = array('produto' => $resultados['produto'] , 'acao' => "entrada" , 'quantidade' =>   $resultados['quantidade'], 'local' => 6);
+      if ($resultados['quantidade'] < 1) {
            $mensagem = (new Mensagem)->erro('A quantidade precisa ser maior ou igual 1')->flash();
            Helpers::redirecionar('entrada/adicionar');
            return;
         }
-       
-       $query = "INSERT INTO registros ( `produto_id`, `acao`, `quantidade`, `local_id`  ) VALUES ( ? , ?, ?, ?)";
-    $stmt = Conexao::getInstancia()->prepare($query);
- 
-   $acao = "entrada";
-   $local = 6;
-    $stmt->execute([$produto, $acao, $quantidade, $local]);
+       (new Inserir())->inserir('registros', 'produto_id , acao, quantidade, local_id', $array);
+      
 }
 public function contaRegistros() {
        $query = "SELECT COUNT(*) as total FROM registros WHERE acao = 'entrada'";

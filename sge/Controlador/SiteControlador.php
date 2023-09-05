@@ -41,6 +41,7 @@ class SiteControlador extends Controlador {
           
         $this->nivel_user = UsuarioControlador::usuario()->nivel_acesso;
            $this->sessao = new Sessao();
+           (new UsuarioControlador())->limpar_usuario();
            
            
            $this->user = UsuarioControlador::usuario()->nome;   
@@ -133,6 +134,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados) ) {
             (new SaidaModelo())->saida($dados);
+            (new SaidaModelo())->quantidadeSaida($dados);
             (new SaidaModelo())->saidaRegisto($dados);
             $this->mensagem->sucesso('Saída Adicionada com Sucesso!')->flash();
             Helpers::redirecionar('saida/adicionar');
