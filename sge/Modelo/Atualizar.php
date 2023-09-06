@@ -28,6 +28,17 @@ foreach ($dados as $valor) {
 
 $stmt->execute($bindParams);
 }
+public function atualizarSlug(string $tabela,string $atualizar, array $dados, string $slug ):  void {
+    $query = "UPDATE {$tabela} SET {$atualizar} WHERE slug = {$slug}";
+    
+     $stmt = Conexao::getInstancia()->prepare($query);
+     $bindParams = [];
 
+foreach ($dados as $valor) {
+    $bindParams[] = $valor;
+}
+
+$stmt->execute($bindParams);
+}
 
 }

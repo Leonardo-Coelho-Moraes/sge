@@ -14,6 +14,7 @@ namespace sge\Modelo;
  */
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
+use PDO;
 use sge\Nucleo\Conexao;
 class Busca {
  public function busca(?int $pagina = null,?int $limite = null, string $tabela, ?string $termo = null, ?string $ordem = null, ?string $limit = null): array {
@@ -37,5 +38,26 @@ public function buscaId( string $tabela, int $id): bool|object{
         
         return $resultado;
     }
+public function buscaSlug(string $tabela, string $slug): bool|object{
+    // Use uma variável para armazenar o valor do slug com aspas simples
+    $sol = '%' . $slug . '%'; // Adicione % como curinga, se necessário
+
+    // Use uma consulta preparada para evitar SQL injection
+    $query = "SELECT * FROM {$tabela} WHERE slug LIKE :sol";
+
+    // Prepare a consulta
+    $stmt = Conexao::getInstancia()->prepare($query);
+
+    // Associe o valor do parâmetro :sol ao valor da variável $sol
+    $stmt->bindParam(':sol', $sol, PDO::PARAM_STR);
+
+    // Execute a consulta preparada
+    $stmt->execute();
+
+    // Obtenha o resultado como um objeto ou falso em caso de falha
+    $resultado = $stmt->fetch();
+
+    return $resultado;
+}
 
 }

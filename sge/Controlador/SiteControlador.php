@@ -201,7 +201,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         if (isset($dados)) {
             (new ProdutoModelo())->atualizar($dados, $id);
             $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a quantidade do estoque em produtos!')->flash();
-            Helpers::redirecionar('produtos/'.$id);
+            Helpers::redirecionar('produtos');
         }
 
 
@@ -221,9 +221,9 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
          Helpers::redirecionar('produtos');}
     }
     
-    public function produto(int $id): void {
+    public function produto(string $slug, int $id): void {
        
-        $produto =   (new Busca())->buscaId('produtos',$id);
+        $produto =   (new Busca())->buscaSlug('produtos',$slug);
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
        
@@ -289,7 +289,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         echo $this->template->renderizar('locais.html', [ 'titulo' => 'SGE-SEMSA Locais', 'locais' => $locais]);
     }
 
-    public function local(int $id): void {
+    public function local(string $nome, int $id): void {
         $locais = (new Busca())->buscaId('locais',$id);
       $produtos = (new Busca())->busca(null,null,'produtos',null,'nome ASC',null);
        

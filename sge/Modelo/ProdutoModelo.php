@@ -22,10 +22,12 @@ class ProdutoModelo {
     $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
     'nome' => $resultados['produto'] ,
+    'slug' => $resultados['produto'].'-'. uniqid(),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],
     'tipo_produto' =>  $resultados['tipo'],
+    'modelo' =>  $resultados['modelo'],
     'estoque' => $resultados['quantidade'],
     'lote' => $resultados['lote'],
     'validade' => $resultados['validade'],
@@ -38,17 +40,19 @@ class ProdutoModelo {
         Helpers::redirecionar('produtos/produto_cadastrar');
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
-    (new Inserir())->inserir('produtos', "nome, fabricante, tipo_embalagem, unidades_embalagem, tipo_produtos, quantidade_estoque, lote, validade, fornecedor, observacao", $dadosArray);
+    (new Inserir())->inserir('produtos', "nome, slug, fabricante, tipo_embalagem, unidades_embalagem, tipo_produtos,modelo, quantidade_estoque, lote, validade, fornecedor, observacao", $dadosArray);
 }
 
    public function atualizar(array $dados, int $id): void {
        $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
     'nome' => $resultados['produto'] ,
+    'slug' => $resultados['produto'].'-'. uniqid(),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],
     'tipo_produto' =>  $resultados['tipo'],
+    'modelo' =>  $resultados['modelo'],
     'estoque' => $resultados['quantidade'],
     'lote' => $resultados['lote'],
     'validade' => $resultados['validade'],
@@ -63,7 +67,7 @@ class ProdutoModelo {
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
     
-        (new Atualizar())->atualizar('produtos', "nome = ?, fabricante = ?, tipo_embalagem = ?, unidades_embalagem = ?, tipo_produtos = ?, quantidade_estoque = ?, lote = ?, validade = ?, fornecedor = ?, observacao = ?, editado = ?", $dadosArray, $id);
+        (new Atualizar())->atualizar('produtos', "nome = ?, slug = ?, fabricante = ?, tipo_embalagem = ?, unidades_embalagem = ?, tipo_produtos = ?, modelo = ?, quantidade_estoque = ?, lote = ?, validade = ?, fornecedor = ?, observacao = ?, editado = ?", $dadosArray, $id);
     
 }
 public function deletar(int $id): void {

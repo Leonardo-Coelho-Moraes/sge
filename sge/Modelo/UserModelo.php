@@ -14,6 +14,7 @@ use PDO;
 use sge\Controlador\UsuarioControlador;
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Conexao;
+use sge\Modelo\Atualizar;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Sessao;
 class UserModelo {
@@ -65,6 +66,7 @@ Helpers::redirecionar('');
       
 }
 private function hora($id):void {
+    
   $data = date('Y-m-d H:i:s');
 
     $query = "UPDATE usuarios SET ultimo_acesso = ? WHERE id = ?";
@@ -74,10 +76,15 @@ private function hora($id):void {
    
 }
   public function atualizar(array $dados, int $id): void {
+      $resultados = Helpers::validadarDados($dados);
+       $dadosArray = array(
+    'nome' => $resultados['usuariocad'] ,
+    'senha' => $resultados['senha'],
+    'nivel_acesso' => $resultados['nivelacesso']
+);
   
-    $query = "UPDATE usuarios SET nome = ?, senha = ?, nivel_acesso = ? WHERE id = ?";
-    $stmt = Conexao::getInstancia()->prepare($query);
-    $stmt->execute([$dados["usuariocad"], $dados["senha"], $dados["nivelacesso"], $id]);
+   
+    (new Atualizar())->atualizar('usuarios', "nome = ?, senha = ?, nivel_acesso = ?", $dadosArray, $id);
 }
 public function deletar(int $id): void {
     $deletado = 1;

@@ -18,11 +18,13 @@ class RegistrosModelo {
 
 public function atualizar(array $dados, int $id): void {
     $resultados = Helpers::validadarDados($dados);
+    $local = isset($resultados['locais']) ? $resultados['locais'] : 6;
+    
                
-               $dadosArray = array('produto' => $resultados['produto'] , 'locais' => $resultados['locais'] , 'quantidade' =>   $resultados['quantidade'], 'editado' => 1);
+               $dadosArray = array('produto' => $resultados['produto'] , 'locais' => $local , 'quantidade' =>   $resultados['quantidade'], 'editado' => 1);
                
      
-     if ($resultados['produto'] < 0 || $resultados['locais'] < 0 || $resultados['quantidade'] < 1 ) {
+     if ($resultados['produto'] < 0 ||  $resultados['quantidade'] < 1 ) {
         $mensagem = (new Mensagem)->erro('Erro Verificar os dados enviador em forma de int')->flash();
         Helpers::redirecionar('registros');
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
@@ -42,6 +44,7 @@ public function atualizar(array $dados, int $id): void {
         $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
         return $resultado->total; // Acesse a propriedade diretamente
     }
+ 
 public function calculaPorcentagemMudanca(int $id) {
     // Calcular o total de registros para o mês atual
     $queryAtual = "SELECT COUNT(*) as total FROM registros WHERE local_id = {$id} AND MONTH(data_hora) = MONTH(CURRENT_DATE()) AND YEAR(data_hora) = YEAR(CURRENT_DATE())";

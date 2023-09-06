@@ -35,8 +35,8 @@
               <th scope="col" class="px-6 py-3">Embalagem</th>
                <th scope="col" class="px-6 py-3">Tipo</th>
                 <th scope="col" class="px-6 py-3">Fornecedor</th>
+                 <th scope="col" class="px-6 py-3">Modelo</th>
                 <th scope="col" class="px-6 py-3">Estoque</th>
-                <th scope="col" class="px-6 py-3">Saída</th>
                 <th scope="col" class="px-6 py-3">Lote</th>
                 <th scope="col" class="px-6 py-3">Validade</th>{% if usuario().nivel_acesso >2 %}
                    <th scope="col" class="px-6 py-3">Ação</th>{% endif %}
@@ -47,13 +47,14 @@
          
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
              
-                  <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <a href="{{ url('produtos/'~produto.id) }}" class="hover:text-blue-500">{{maiuscula(slug(produto.nome))}}</a> </td>
+                  <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <a href="{{ url('produtos/'~produto.slug~'/'~produto.id) }}" class="hover:text-blue-500">{{maiuscula(slug(produto.nome))}}</a> </td>
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{maiuscula(slug(produto.fabricante))}}</td>
-                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.tipo_embalagem}}</td>
-              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.tipo_produtos}}</td>
-               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.fornecedor}}</td>
+                            <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{maiuscula(produto.tipo_embalagem)}}</td>
+              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{maiuscula(produto.tipo_produtos)}}</td>
+               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{maiuscula(produto.fornecedor)}}</td>
+               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white" >{{maiuscula(produto.modelo)}}</td>
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.quantidade_estoque}}</td>
-               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.quantidade_saida}}</td>
+              
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.lote}}</td>
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.validade}}</td>{% if usuario().nivel_acesso >2 %}
               <td scope="row" class="px-6 py-4 flex gap-1 font-medium text-gray-900 whitespace-nowrap dark:text-white"><a href="{{url('produtos/editar/'~produto.id)}}" class="w-6 h-6 flex items-center justify-center rounded-full bg-blue-400">
