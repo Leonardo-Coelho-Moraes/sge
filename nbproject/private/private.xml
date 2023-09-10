@@ -12,12 +12,15 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/UserModelo.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/RelatorioModelo.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/aside.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/base.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/assets/js/tailwind.config.js</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/RelatorioControlador.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/assets/js/nav.js</file>
             <file>file:/C:/xampp/htdocs/sgesemsa/sge/Controlador/SiteControlador.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/rotas.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/SaidaModelo.php</file>
-            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Modelo/ProdutoModelo.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/relatorio.html</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/sge/Nucleo/Helpers.php</file>
+            <file>file:/C:/xampp/htdocs/sgesemsa/templates/site/views/produto.html</file>
         </group>
     </open-files>
 </project-private>

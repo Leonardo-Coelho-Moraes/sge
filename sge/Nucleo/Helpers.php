@@ -34,6 +34,15 @@ public static function reduzirTexto( string $string, int $max): string {
     
     return $string;
 }
+public static function userLogo( string $string, int $max): string {
+  
+    
+    if (mb_strlen($string) > $max) {
+        return mb_substr($string, 0, $max);
+    }
+    
+    return $string;
+}
 public static function url(string $url = null): string
 {
         $sevidor = filter_input(INPUT_SERVER, 'SERVER_NAME');
@@ -119,7 +128,15 @@ public static function textTraco(string $string): string {
        
         return $slug;
     }
-    
+     public static function tirarPorcentagem(string $string): string {
+        $mapa = [
+            '%' => '',
+        ];
+
+        $slug = strtr($string, $mapa);
+       
+        return $slug;
+    }
 public static function juntarlink(string $string = null): string {
 
     return strtolower($string);

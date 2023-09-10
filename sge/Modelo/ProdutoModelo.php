@@ -22,7 +22,7 @@ class ProdutoModelo {
     $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
     'nome' => $resultados['produto'] ,
-    'slug' => $resultados['produto'].'-'. uniqid(),
+    'slug' => Helpers::tirarPorcentagem($resultados['produto']).'-'. uniqid(),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],
@@ -47,7 +47,7 @@ class ProdutoModelo {
        $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
     'nome' => $resultados['produto'] ,
-    'slug' => $resultados['produto'].'-'. uniqid(),
+    'slug' => Helpers::tirarPorcentagem($resultados['produto']).'-'. uniqid(),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],

@@ -2,7 +2,7 @@
 {% block conteudo %}
 <div class=" w-full  p-5  justify-start ">
     <a href="#" class="mb-3 text-gray-800 font-medium hover:text-gray-600">Buscar Registros</a>
-    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 80vh;">
+    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 90vh;">
        
             
 {% if pesquisas %}
@@ -33,13 +33,17 @@
             <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                 <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {% set produtoNome= '' %}
+                       {% set produtoSlug = '' %}
+                         {% set produtoId = '' %}
                     {% for produto in produtos %}
                         {% if produto.id == registro.produto_id %}
                             {% set produtoNome = produto.nome %}
+                            {% set produtoSlug = produto.slug %}
+                         {% set produtoId = produto.id %}
                          
                         {% endif %}
                     {% endfor %}
-                    {{ produtoNome }}</td>
+                    <a href="{{url('produtos/'~produtoSlug~'/'~produtoId)}}" class="hover:text-blue-500">{{maiuscula(slug(produtoNome))  }}</a></td>
              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {% set localNome = '' %}
                     {% for local in locais %}
                         {% if local.id == registro.local_id %}

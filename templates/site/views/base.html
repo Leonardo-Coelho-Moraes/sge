@@ -12,6 +12,14 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+ 
+    if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+    } else {
+        document.documentElement.classList.remove('dark')
+    }
+</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -22,7 +30,6 @@
 
     <main class="flex flex-row justify-between">{% include 'aside.html'%}
         <section class="flex flex-col justify-start w-full dark:bg-gray-500 ">
-            {%include 'navbar.html'%}
             {% block conteudo %} {% endblock %}
         </section>
     </main>
@@ -31,6 +38,7 @@
 <script src="{{url('templates/assets/js/nav.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 <script src="{{url('templates/assets/js/script.js')}}"></script>
+<script src="{{url('templates/assets/js/tailwind.config.js')}}"></script>
 
 </body>
 

@@ -38,8 +38,14 @@ public function atualizar(array $dados, int $id): void {
         $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
         return $resultado->total; // Acesse a propriedade diretamente
     }
-    public function contaRegistrosId($id) {
+    public function contaRegistrosIdLocal($id) {
         $query = "SELECT COUNT(*) as total FROM registros WHERE local_id = {$id}";
+        $stmt = Conexao::getInstancia()->query($query);
+        $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
+        return $resultado->total; // Acesse a propriedade diretamente
+    }
+  public function contaRegistrosIdProduto($id) {
+        $query = "SELECT COUNT(*) as total FROM registros WHERE produto_id = {$id}";
         $stmt = Conexao::getInstancia()->query($query);
         $resultado = $stmt->fetch(); // Use fetch() em vez de fetchAll()
         return $resultado->total; // Acesse a propriedade diretamente

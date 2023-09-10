@@ -2,7 +2,7 @@
 {% block conteudo %}
 <div class=" w-full  p-5  justify-start ">
     <a href="#" class="mb-3 text-gray-800 font-medium hover:text-gray-600">Buscar Produtos</a>
-    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 80vh;">
+    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 90vh;">
       {% if produtos %}
       <div class="relative  shadow-md sm:rounded-lg overflow-x-auto ">
         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -27,7 +27,7 @@
          
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
              
-              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.nome}} </td>
+              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> <a href="{{ url('produtos/'~produto.slug~'/'~produto.id) }}" class="hover:text-blue-500">{{maiuscula(slug(produto.nome))}}</a> </td>
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.fabricante}}</td>
                             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.tipo_embalagem}}</td>
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{produto.tipo_produtos}}</td>

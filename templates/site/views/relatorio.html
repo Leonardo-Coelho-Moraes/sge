@@ -2,7 +2,7 @@
 {% block conteudo %}
 <div class=" w-full  p-5  justify-start ">
     <a href="#" class="mb-3 text-white font-medium hover:text-gray-600">Relatório</a>
-    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 80vh;">
+    <div class=" w-full   justify-center items-start gap-8 overflow-y-scroll   " style="max-height: 90vh;">
         <div class=" w-full flex flex-col juntify-center gap-3">
             
             
@@ -105,16 +105,16 @@
               <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
              
                   <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{rela.nome}} 
+                      {{maiuscula(slug(rela.nome))}} 
                   </td>
                   <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{rela.acao}}
+                      {{maiuscula(rela.acao)}}
                   </td>
                   <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{rela.fabricante}}
+                      {{maiuscula(slug(rela.fabricante))}}
                   </td>
                   <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{rela.fornecedor}}
+                      {{maiuscula(slug(rela.fornecedor))}}
                   </td>
             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                       {{rela.quantidade}}
@@ -122,7 +122,7 @@
                   
                     {%if rela.local%}
             <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                      {{rela.local}}
+                      {{maiuscula(slug(rela.local))}}
                   </td>
                    {%endif%}
               <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">

@@ -7,21 +7,19 @@ namespace sge\Controlador;
  *
  * @author Leonardo
  */
-use FPDF;
 
-use sge\Modelo\PostLocal;
+use sge\Controlador\UsuarioControlador;
 use sge\Modelo\Busca;
-use sge\Nucleo\Controlador;
-use sge\Nucleo\Helpers;
+use sge\Modelo\Contar;
 use sge\Modelo\EntradaModelo;
-use sge\Modelo\SaidaModelo;
+use sge\Modelo\PostLocal;
 use sge\Modelo\ProdutoModelo;
 use sge\Modelo\RegistrosModelo;
+use sge\Modelo\SaidaModelo;
 use sge\Modelo\UserModelo;
-use sge\Modelo\Contar;
-use sge\Modelo\RelatorioModelo;
+use sge\Nucleo\Controlador;
+use sge\Nucleo\Helpers;
 use sge\Nucleo\Sessao;
-use sge\Controlador\UsuarioControlador;
 class SiteControlador extends Controlador {
      private $sessao;
      protected $usuario;
@@ -105,7 +103,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         }
          echo $this->template->renderizar('formularios/editarentrada.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);}
          else{
-    $this->mensagem->erro('Tentativa de editar entrada está fora de seu alcançe!')->flash();
+    
             Helpers::redirecionar('entrada');
 }
     }
@@ -160,7 +158,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         }
           echo $this->template->renderizar('formularios/editarsaida.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'registros' => $registros, 'produtos' => $produtos, 'locais' => $locais]);}
           else{
-    $this->mensagem->erro('Tentativa de editar saída está fora de seu alcançe!')->flash();
+  
             Helpers::redirecionar('saida');
 }
     }
@@ -194,9 +192,9 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         echo $this->template->renderizar('formularios/cadastrarproduto.html', [ 'titulo' => 'SGE-SEMSA Produtos']);
     }
 
-    public function editar_produto(int $id): void {
+    public function editar_produto(string $slug, int $id): void {
          if($this->nivel_user > 2){
-        $produtos = (new Busca())->buscaId('produtos',$id);
+        $produtos = (new Busca())->buscaSlug('produtos',$slug);
         $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
         if (isset($dados)) {
             (new ProdutoModelo())->atualizar($dados, $id);
@@ -208,12 +206,12 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         echo $this->template->renderizar('formularios/editarproduto.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produto' => $produtos]);
     }
      else{
-    $this->mensagem->erro('Tentativa de editar produto está fora de seu alcançe!')->flash();
+   
             Helpers::redirecionar('produtos');
 }
         }
 
-    public function deletar_produto(int $id): void {
+    public function deletar_produto(string $slug, int $id): void {
         
          if($this->nivel_user > 2){
         (new ProdutoModelo())->deletar($id);
@@ -226,9 +224,9 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         $produto =   (new Busca())->buscaSlug('produtos',$slug);
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-       
-          $registros = (new Busca())->busca($pagina, $limite,'registros',"produto_id = $id",'id DESC');
-        $totalRegistros = (new RegistrosModelo())->contaRegistrosId($id);
+       $locais = (new Busca())->busca(null,null,'locais',null,'nome ASC',null);
+          $registros = (new Busca())->busca($pagina, $limite,'registros',"produto_id = $id",null);
+        $totalRegistros = (new RegistrosModelo())->contaRegistrosIdProduto($id);
         $nome = Helpers::slug($produto->nome);
        
         $totalPaginas = ceil($totalRegistros / $limite);
@@ -237,7 +235,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
         }
         echo $this->template->renderizar('produto.html', [ 'titulo' => 'SGE-SEMSA ' . $nome, 'registros' => $registros, 'produto' => $produto,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas, 'total' => $totalRegistros]);
+            'totalPaginas' => $totalPaginas, 'total' => $totalRegistros, 'locais'=> $locais]);
       
     }
 
@@ -272,7 +270,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
         echo $this->template->renderizar('usuarios.html', [ 'titulo' => 'SGE-SEMSA Usuários', 'usuarios' => $usuarios]);}
         else{ 
-                $this->mensagem->erro('Nível insuficiente!')->flash();
+             
             Helpers::redirecionar('entrada');}
    
     }
@@ -296,7 +294,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
          $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
        $registros = (new Busca())->busca($pagina, $limite,'registros',"local_id = $id",'id DESC');
-        $totalRegistros = (new RegistrosModelo())->contaRegistrosId($id);
+        $totalRegistros = (new RegistrosModelo())->contaRegistrosIdLocal($id);
         $nome = Helpers::slug($locais->nome) ;
        
         $totalPaginas = ceil($totalRegistros / $limite);
@@ -307,86 +305,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
             'paginaAtual' => $pagina,
             'totalPaginas' => $totalPaginas, 'total' => $totalRegistros]);
     }
-
- public function relatorio(): void {
-    $locais = (new Busca())->busca(null, null, 'locais', null, 'nome ASC', null);
-    $relatorio = [];
-    $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
     
-    if (isset($dados)) {
-        $relatorio = (new RelatorioModelo())->buscaRegistros($dados);
-        if(empty($relatorio)){
-              $this->mensagem->erro('Registros não exitem, consulte o banco de dados!')->flash();
-        }
-      
-    }
-
-  $this->sessao->criar('relatorio', $relatorio);
-    echo $this->template->renderizar('relatorio.html', [
-        
-        'titulo' => 'SGE-SEMSA Relatório',
-        'relatorio' => $relatorio,
-        'locais' => $locais
-    ]);
-}
-
-public function download(): void {
-   
-   
-    $relatorio =  $this->sessao->carregar()->relatorio;
-    
-    if (!empty($relatorio)) {
-        $pdf = new FPDF('L');
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', 'B', 10);
-
-  $pageWidth = $pdf->GetPageWidth();
-
-// Definir a largura total da tabela
-$tableWidth = 60 + 19 + 40 + 30 + 18 + 47 + 12 + 36; // Somar larguras das células
-
-// Calcula a posição central horizontal para a tabela
-$tableStartX = ($pageWidth - $tableWidth) / 2;
-$pdf->SetXY($tableStartX, 10);
-
-  
-        // Cabeçalho da tabela
-        $pdf->Cell(60, 10, utf8_decode('Nome'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(19, 10, utf8_decode('Ação'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(40, 10, utf8_decode('Fabricante'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(30, 10, utf8_decode('Fornecedor'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(18, 10, utf8_decode('Qnt.'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(47, 10, utf8_decode('Local'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(12, 10, utf8_decode('Lote'), 1,0, 'C', false, '', 14);
-        $pdf->Cell(36, 10, utf8_decode('Data'), 1,0, 'C', false, '', 14);
-        $pdf->Ln();
-
-        // Conteúdo da tabela
-       foreach ($relatorio as $registro) {
-    // Posiciona o cursor no centro horizontal da página
-    $pdf->SetXY($tableStartX, $pdf->GetY());
-
-            $pdf->Cell(60, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->nome,30))), 1);
-            $pdf->Cell(19, 7, ucfirst($registro->acao), 1);
-            
-        $pdf->Cell(40, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fabricante, 16))), 1);
-            $pdf->Cell(30, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->fornecedor,12))), 1);
-            $pdf->Cell(18, 7, $registro->quantidade, 1);
-            $pdf->Cell(47, 7, ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($registro->local, 24))), 1);
-            $pdf->Cell(12, 7, $registro->lote, 1);
-            $pdf->Cell(36, 7, $registro->data_hora, 1);
-            $pdf->Ln();
-        }
-
-        $pdf->Output();
-        exit();
-    } else {
-        // Redirecionar ou mostrar uma mensagem de erro se os dados do relatório não estiverem disponíveis
-    }
-}
-
-    
-
     public function erro404(): void {
         echo $this->template->renderizar('error404.html', [ 'titulo' => 'Página não Encontrada']);
     }

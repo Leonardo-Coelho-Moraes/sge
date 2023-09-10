@@ -38,6 +38,9 @@ class Template
                              $this->twig->addFunction(new \Twig\TwigFunction('usuario', function () {
                 return UsuarioControlador::usuario();
             })),
+                        $this->twig->addFunction(new \Twig\TwigFunction('usuarioReduzido', function (string $string = null, int $max = null) {
+                return Helpers::userLogo($string, $max);
+            })),
                   
         );
     }
