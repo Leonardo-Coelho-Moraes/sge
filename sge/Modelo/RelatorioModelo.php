@@ -22,9 +22,9 @@ public function buscaRegistros(array $dados)
     
     $acao = $dados['acao'];
     $mesAno = $dados['mes'];
-    $produto =  Helpers::textTraco(Helpers::validarString($dados['produto']));
-    $fabricante =  Helpers::textTraco(Helpers::validarString($dados['fabricante']));
-    $fornecedor =  Helpers::textTraco(Helpers::validarString($dados['fornecedor']));
+    $produto =  Helpers::Mudar(Helpers::validarString($dados['produto']), [' '], '-');
+    $fabricante =  Helpers::Mudar(Helpers::validarString($dados['fabricante']), [' '], '-');
+    $fornecedor =  Helpers::Mudar(Helpers::validarString($dados['fornecedor']), [' '], '-');
     $lote =  $dados['lote'];
     $local = $dados['local'];
 

@@ -164,9 +164,10 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
     }
 
     public function produtos(): void {
+        $agora = strtotime(date('Y-m-d'));
         $pagina = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
         $limite = 30;
-         $produtos = (new Busca())->busca($pagina, $limite,'produtos', "deletado != 1 OR deletado IS NULL ",'criado_em DESC');
+         $produtos = (new Busca())->busca($pagina, $limite,'produtos', "deletado != 1 OR deletado IS NULL ",'validade ASC');
            $quantidade = (new Contar())->contar('produtos',"deletado = 0 OR deletado IS NULL");
           $edicao = (new Contar())->contar('produtos',"editado = 1");
           
@@ -177,7 +178,7 @@ $this->mensagem->sucesso('Registro Editado com Sucesso. Lembre de atualizar a qu
 
         echo $this->template->renderizar('produtos.html', [ 'titulo' => 'SGE-SEMSA Produtos', 'produtos' => $produtos,
             'paginaAtual' => $pagina,
-            'totalPaginas' => $totalPaginas,'quantidade' =>$quantidade,'edicao' =>$edicao, 'deletado' => $deletado]);
+            'totalPaginas' => $totalPaginas,'quantidade' =>$quantidade,'edicao' =>$edicao, 'deletado' => $deletado, 'agora'=> $agora]);
     }
 
     public function produto_cadastrar(): void {

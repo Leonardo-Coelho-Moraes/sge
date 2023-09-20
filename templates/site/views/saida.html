@@ -60,7 +60,7 @@
                          {% set produtoId = produto.id %}
                         {% endif %}
                     {% endfor %}
-                    <a href="{{url('produtos/'~produtoSlug~'/'~produtoId)}}" class="hover:text-blue-500">{{maiuscula(slug(produtoNome))  }}</a></td>
+                    <a href="{{url('produtos/'~produtoSlug~'/'~produtoId)}}" class="hover:text-blue-500">{{produtoNome }}</a></td>
              <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"> {% set localNome = '' %}
                     {% for local in locais %}
                         {% if local.id == registro.local_id %}

@@ -10,6 +10,7 @@ namespace sge\Modelo;
  *
  * @author Leonardo
  */
+use sge\Controlador\UsuarioControlador;
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
 use sge\Nucleo\Conexao;
@@ -18,10 +19,12 @@ class RegistrosModelo {
 
 public function atualizar(array $dados, int $id): void {
     $resultados = Helpers::validadarDados($dados);
-    $local = isset($resultados['locais']) ? $resultados['locais'] : 6;
+    $user = UsuarioControlador::usuario()->nome;
+    $local = isset($resultados['locaios($dados);
+    $s']) ? $resultados['locais'] : 6;
     
                
-               $dadosArray = array('produto' => $resultados['produto'] , 'locais' => $local , 'quantidade' =>   $resultados['quantidade'], 'editado' => 1);
+               $dadosArray = array('produto' => $resultados['produto'] , 'locais' => $local , 'quantidade' =>   $resultados['quantidade'], 'editado' => 1, 'user' => $user);
                
      
      if ($resultados['produto'] < 0 ||  $resultados['quantidade'] < 1 ) {
@@ -29,7 +32,7 @@ public function atualizar(array $dados, int $id): void {
         Helpers::redirecionar('registros');
         return; // Importante adicionar um "return" aqui para sair da função em caso de erro
     }
-   (new Atualizar())->atualizar('registros', "produto_id = ?, local_id = ?, quantidade = ?, editado = ?", $dadosArray, $id);
+   (new Atualizar())->atualizar('registros', "produto_id = ?, local_id = ?, quantidade = ?, editado = ?, user =?", $dadosArray, $id);
 }
 
     public function contaRegistros() {

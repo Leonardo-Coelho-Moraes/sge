@@ -21,8 +21,8 @@ class ProdutoModelo {
  public function armazenar(array $dados): void {
     $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
-    'nome' => $resultados['produto'] ,
-    'slug' => Helpers::tirarPorcentagem($resultados['produto']).'-'. uniqid(),
+    'nome' => $dados['produto'],
+    'slug' => Helpers::Mudar($resultados['produto'].'-'. uniqid(), [',','.','%'],''),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],
@@ -46,8 +46,8 @@ class ProdutoModelo {
    public function atualizar(array $dados, int $id): void {
        $resultados = Helpers::validadarDados($dados);
        $dadosArray = array(
-    'nome' => $resultados['produto'] ,
-    'slug' => Helpers::tirarPorcentagem($resultados['produto']).'-'. uniqid(),
+    'nome' => $dados['produto'],
+    'slug' => Helpers::Mudar($resultados['produto'].'-'. uniqid(), [',','.','%'],''),
     'fabricante' => $resultados['fabricante'],
     'tipo_embalagem' => $resultados['embalagem'],
     'unidades' => $resultados['unidade_embalagem'],

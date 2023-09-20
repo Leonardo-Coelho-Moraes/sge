@@ -60,7 +60,16 @@ public static function localhost(): bool
     }
     return false;
 }
-
+public static function converterDataNumero(string $data): string {
+$resultado = strtotime($data);
+return $resultado;
+}
+public static function validadeProxima(string $data): string {
+    $agora = strtotime(date('Y-m-d'));
+$data = strtotime($data);
+$resultado = $data - $agora;
+return $resultado;
+}
 public static function contarTempo(string $data): string {
     $agora = strtotime(date('Y-m-d H:i:s'));
     $tempo = strtotime($data);
@@ -111,6 +120,7 @@ public static function slug(string $string): string {
     return strtolower(mb_convert_encoding(trim($slug), 'ISO-8859-1', 'UTF-8'));
 }
 public static function textTraco(string $string): string {
+    
         $mapa = [
             ' ' => '-',
         ];
@@ -119,6 +129,8 @@ public static function textTraco(string $string): string {
         $slug = mb_strtolower(trim($slug), 'UTF-8');
         return $slug;
     }
+    
+
     public static function tirarTraco(string $string): string {
         $mapa = [
             '-' => ' ',
@@ -128,15 +140,13 @@ public static function textTraco(string $string): string {
        
         return $slug;
     }
-     public static function tirarPorcentagem(string $string): string {
-        $mapa = [
-            '%' => '',
-        ];
-
-        $slug = strtr($string, $mapa);
-       
+    
+    public static function Mudar(string $texto, array $de, string $para): string {
+          $slug = str_replace($de, $para, $texto);
+      
         return $slug;
     }
+    
 public static function juntarlink(string $string = null): string {
 
     return strtolower($string);

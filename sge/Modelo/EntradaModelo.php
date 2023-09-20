@@ -12,6 +12,7 @@ namespace sge\Modelo;
  */
 use sge\Nucleo\Mensagem;
 use sge\Nucleo\Helpers;
+use sge\Controlador\UsuarioControlador;
 use sge\Modelo\Inserir;
 use sge\Modelo\Atualizar;
 use sge\Nucleo\Conexao;
@@ -28,14 +29,14 @@ class EntradaModelo {
 }
  public function entradaRegisto(array $dados): void {
        $resultados = Helpers::validadarDados($dados);
-               
-               $array = array('produto' => $resultados['produto'] , 'acao' => "entrada" , 'quantidade' =>   $resultados['quantidade'], 'local' => 6);
+                $user = UsuarioControlador::usuario()->nome;
+               $array = array('produto' => $resultados['produto'] , 'acao' => "entrada" , 'quantidade' =>   $resultados['quantidade'], 'local' => 6, 'user' => $user);
       if ($resultados['quantidade'] < 1) {
            $mensagem = (new Mensagem)->erro('A quantidade precisa ser maior ou igual 1')->flash();
            Helpers::redirecionar('entrada/adicionar');
            return;
         }
-       (new Inserir())->inserir('registros', 'produto_id , acao, quantidade, local_id', $array);
+       (new Inserir())->inserir('registros', 'produto_id , acao, quantidade, local_id, user', $array);
       
 }
 public function contaRegistros() {

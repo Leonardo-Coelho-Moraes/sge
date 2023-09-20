@@ -110,6 +110,6 @@ class RelatorioControlador extends Controlador {
         }
     }
     protected function validação(string $valor, int $tamanho) {
-        return ucfirst(Helpers::tirarTraco(Helpers::reduzirTexto($valor, $tamanho))) ;
+        return ucfirst(Helpers::slug(Helpers::tirarTraco(Helpers::reduzirTexto($valor, $tamanho)))) ;
     }
 }
